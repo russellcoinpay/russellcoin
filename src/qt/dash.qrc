@@ -1,4 +1,4 @@
-<!DOCTYPE RCC><RCC version="1.0">
+<RCC>
     <qresource prefix="/icons">
         <file alias="bitcoin">res/icons/bitcoin.png</file>
         <file alias="address-book">res/icons/address-book.png</file>
@@ -55,10 +55,13 @@
         <file alias="drkblue_editcopy">res/icons/drkblue_editcopy.png</file>
         <file alias="drkblue_remove">res/icons/drkblue_remove.png</file>
         <file alias="browse">res/icons/browse.png</file>
+        <file alias="miner">res/icons/miner.png</file>
+        <file alias="unminer">res/icons/unminer.png</file>
+        <file alias="explorer">res/icons/explorer.png</file>
     </qresource>
     <qresource prefix="/css">
         <file alias="drkblue">res/css/drkblue.css</file>
-    </qresource>	    
+    </qresource>
     <qresource prefix="/images">
         <file alias="about">res/images/about.png</file>
         <file alias="dash_logo_horizontal">res/images/dash_logo_horizontal.png</file>

@@ -115,6 +115,12 @@ private:
     QAction *openAction;
     QAction *showHelpMessageAction;
 
+    QAction *minerAction;
+    QAction *unminerAction;
+    QAction *homePageAction;
+    QAction *explorerAction;
+    QAction *explorerAction1;
+
     QSystemTrayIcon *trayIcon;
     QMenu *trayIconMenu;
     Notificator *notificator;
@@ -183,6 +189,16 @@ private slots:
 #ifdef ENABLE_WALLET
     /** Switch to overview (home) page */
     void gotoOverviewPage();
+
+    void gotoHomePage();
+
+    void gotoExplorerPage();
+    void gotoExplorerPage1();
+
+
+    void gotoMiner();
+
+    void gotoUnminer();
     /** Switch to history (transactions) page */
     void gotoHistoryPage();
     /** Switch to receive coins page */

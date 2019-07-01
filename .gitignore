@@ -32,7 +32,7 @@ build-aux/compile
 build-aux/test-driver
 config.log
 config.status
-configure
+
 libtool
 src/config/dash-config.h
 src/config/dash-config.h.in
@@ -59,7 +59,7 @@ src/qt/test/moc*.cpp
 *.pyc
 *.o
 *.o-*
-*.patch
+
 .dash
 *.a
 *.pb.cc
@@ -78,7 +78,7 @@ src/qt/test/moc*.cpp
 
 # Compilation and Qt preprocessor part
 *.qm
-Makefile
+
 dash-qt
 Dash-Qt.app
 

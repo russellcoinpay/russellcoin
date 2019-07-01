@@ -164,6 +164,7 @@ QVariant PeerTableModel::data(const QModelIndex &index, int role) const
         case Address:
             return QString::fromStdString(rec->nodeStats.addrName);
         case Subversion:
+            //return QString::fromStdString("MiLianCoin:1.2.0");
             return QString::fromStdString(rec->nodeStats.cleanSubVer);
         case Ping:
             return GUIUtil::formatPingTime(rec->nodeStats.dPingTime);

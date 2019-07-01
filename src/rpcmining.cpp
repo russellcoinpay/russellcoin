@@ -101,7 +101,7 @@ Value getgenerate(const Array& params, bool fHelp)
         throw runtime_error(
             "getgenerate\n"
             "\nReturn if the server is set to generate coins or not. The default is false.\n"
-            "It is set with the command line argument -gen (or dash.conf setting gen)\n"
+            "It is set with the command line argument -gen (or RussellCoin.conf setting gen)\n"
             "It can also be set with the setgenerate call.\n"
             "\nResult\n"
             "true|false      (boolean) If the server is set to generate coins or not\n"
@@ -272,6 +272,7 @@ Value getmininginfo(const Array& params, bool fHelp)
 // NOTE: Unlike wallet RPC (which use BTC values), mining RPCs follow GBT (BIP 22) in using satoshi amounts
 Value prioritisetransaction(const Array& params, bool fHelp)
 {
+    return false;
     if (fHelp || params.size() != 3)
         throw runtime_error(
             "prioritisetransaction <txid> <priority delta> <fee delta>\n"
@@ -321,6 +322,7 @@ static Value BIP22ValidationResult(const CValidationState& state)
 
 Value getblocktemplate(const Array& params, bool fHelp)
 {
+    return Value::null;
     if (fHelp || params.size() > 1)
         throw runtime_error(
             "getblocktemplate ( \"jsonrequestobject\" )\n"
@@ -642,6 +644,7 @@ protected:
 
 Value submitblock(const Array& params, bool fHelp)
 {
+    return "invaliate";
     if (fHelp || params.size() < 1 || params.size() > 2)
         throw runtime_error(
             "submitblock \"hexdata\" ( \"jsonparametersobject\" )\n"

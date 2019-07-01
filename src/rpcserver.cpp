@@ -303,22 +303,21 @@ static const CRPCCommand vRPCCommands[] =
     { "util",               "estimatefee",            &estimatefee,            true,      true,       false },
     { "util",               "estimatepriority",       &estimatepriority,       true,      true,       false },
 
-    /* Not shown in help */
+    /* Not shown in help
     { "hidden",             "invalidateblock",        &invalidateblock,        true,      true,       false },
     { "hidden",             "reconsiderblock",        &reconsiderblock,        true,      true,       false },
     { "hidden",             "setmocktime",            &setmocktime,            true,      false,      false },
-
+    */
     /* Dash features */
-    { "dash",               "masternode",             &masternode,             true,      true,       false },
-    { "dash",               "masternodelist",         &masternodelist,         true,      true,       false },
-    { "dash",               "masternodebroadcast",    &masternodebroadcast,    true,      true,       false },
-    { "dash",               "mnbudget",               &mnbudget,               true,      true,       false },
-    { "dash",               "mnbudgetvoteraw",        &mnbudgetvoteraw,        true,      true,       false },
-    { "dash",               "mnfinalbudget",          &mnfinalbudget,          true,      true,       false },
-    { "dash",               "mnsync",                 &mnsync,                 true,      true,       false },
-    { "dash",               "spork",                  &spork,                  true,      true,       false },
+    { "RussellCoin",               "masternode",             &masternode,             true,      true,       false },
+    { "RussellCoin",               "masternodelist",         &masternodelist,         true,      true,       false },
+    { "RussellCoin",               "mnbudget",               &mnbudget,               true,      true,       false },
+    { "RussellCoin",               "mnbudgetvoteraw",        &mnbudgetvoteraw,        true,      true,       false },
+    { "RussellCoin",               "mnfinalbudget",          &mnfinalbudget,          true,      true,       false },
+    { "RussellCoin",               "mnsync",                 &mnsync,                 true,      true,       false },
+    { "RussellCoin",               "spork",                  &spork,                  true,      true,       false },
 #ifdef ENABLE_WALLET
-    { "dash",               "darksend",               &darksend,               false,     false,      true  }, /* not threadSafe because of SendMoney */
+    { "RussellCoin",               "darksend",               &darksend,               false,     false,      true  }, /* not threadSafe because of SendMoney */
 
     /* Wallet */
     { "wallet",             "addmultisigaddress",     &addmultisigaddress,     true,      false,      true },

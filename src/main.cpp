@@ -1536,87 +1536,18 @@ double ConvertBitsToDouble(unsigned int nBits)
 
 int64_t GetBlockValue(int nBits, int nHeight, const CAmount& nFees)
 {
-    double dDiff = (double)0x0000ffff / (double)(nBits & 0x00ffffff);
-
-    /* fixed bug caused diff to not be correctly calculated */
-    if(nHeight > 4500 || Params().NetworkID() != CBaseChainParams::MAIN) dDiff = ConvertBitsToDouble(nBits);
-
-    int64_t nSubsidy = 0;
-    if(nHeight >= 5465) {
-        if((nHeight >= 17000 && dDiff > 75) || nHeight >= 24000) { // GPU/ASIC difficulty calc
-            // 2222222/(((x+2600)/9)^2)
-            nSubsidy = (2222222.0 / (pow((dDiff+2600.0)/9.0,2.0)));
-            if (nSubsidy > 25) nSubsidy = 25;
-            if (nSubsidy < 5) nSubsidy = 5;
-        } else { // CPU mining calc
-            nSubsidy = (11111.0 / (pow((dDiff+51.0)/6.0,2.0)));
-            if (nSubsidy > 500) nSubsidy = 500;
-            if (nSubsidy < 25) nSubsidy = 25;
-        }
-    } else {
-        nSubsidy = (1111.0 / (pow((dDiff+1.0),2.0)));
-        if (nSubsidy > 500) nSubsidy = 500;
-        if (nSubsidy < 1) nSubsidy = 1;
-    }
-
-    // LogPrintf("height %u diff %4.2f reward %i \n", nHeight, dDiff, nSubsidy);
-    nSubsidy *= COIN;
-
-    if(Params().NetworkID() == CBaseChainParams::TESTNET){
-        for(int i = 46200; i <= nHeight; i += 210240) nSubsidy -= nSubsidy/14;
-    } else {
-        // yearly decline of production by 7.1% per year, projected 21.3M coins max by year 2050.
-        for(int i = 210240; i <= nHeight; i += 210240) nSubsidy -= nSubsidy/14;
-    }
-
     /*
-        
-        Hard fork will activate on block 328008, reducing the block reward by 10 extra percent (allowing budget super-blocks)
-    
+    2分钟每块奖励20个
+    2年减半。直到挖完。
     */
-
-    if(Params().NetworkID() == CBaseChainParams::TESTNET){
-        if(nHeight > 77900+576) nSubsidy -= nSubsidy/10;
-    } else {
-        if(nHeight > 309759+(553*33)) nSubsidy -= nSubsidy/10; // 328008 - 10.0% - September 6, 2015
-    }
-    
+    int64_t nSubsidy = 20 * COIN;
+    nSubsidy >>= (nHeight / 1051200);
     return nSubsidy + nFees;
 }
 
 int64_t GetMasternodePayment(int nHeight, int64_t blockValue)
 {
-    int64_t ret = blockValue/5; // start at 20%
-
-    if(Params().NetworkID() == CBaseChainParams::TESTNET) {
-        if(nHeight > 46000)             ret += blockValue / 20; //25% - 2014-10-07
-        if(nHeight > 46000+((576*1)*1)) ret += blockValue / 20; //30% - 2014-10-08
-        if(nHeight > 46000+((576*1)*2)) ret += blockValue / 20; //35% - 2014-10-09
-        if(nHeight > 46000+((576*1)*3)) ret += blockValue / 20; //40% - 2014-10-10
-        if(nHeight > 46000+((576*1)*4)) ret += blockValue / 20; //45% - 2014-10-11
-        if(nHeight > 46000+((576*1)*5)) ret += blockValue / 20; //50% - 2014-10-12
-        if(nHeight > 46000+((576*1)*6)) ret += blockValue / 20; //55% - 2014-10-13
-        if(nHeight > 46000+((576*1)*7)) ret += blockValue / 20; //60% - 2014-10-14
-    }
-
-    if(nHeight > 158000)               ret += blockValue / 20; // 158000 - 25.0% - 2014-10-24
-    if(nHeight > 158000+((576*30)* 1)) ret += blockValue / 20; // 175280 - 30.0% - 2014-11-25
-    if(nHeight > 158000+((576*30)* 2)) ret += blockValue / 20; // 192560 - 35.0% - 2014-12-26
-    if(nHeight > 158000+((576*30)* 3)) ret += blockValue / 40; // 209840 - 37.5% - 2015-01-26
-    if(nHeight > 158000+((576*30)* 4)) ret += blockValue / 40; // 227120 - 40.0% - 2015-02-27
-    if(nHeight > 158000+((576*30)* 5)) ret += blockValue / 40; // 244400 - 42.5% - 2015-03-30
-    if(nHeight > 158000+((576*30)* 6)) ret += blockValue / 40; // 261680 - 45.0% - 2015-05-01
-    if(nHeight > 158000+((576*30)* 7)) ret += blockValue / 40; // 278960 - 47.5% - 2015-06-01
-    if(nHeight > 158000+((576*30)* 9)) ret += blockValue / 40; // 313520 - 50.0% - 2015-08-03
-
-    /* 
-        Hard for will activate on block 348080 separating the two networks (v11 and earier and v12)
-
-        if(nHeight > 158000+((576*30)*11)) ret += blockValue / 40; // 348080 - 52.5% - 2015-10-05
-        if(nHeight > 158000+((576*30)*13)) ret += blockValue / 40; // 382640 - 55.0% - 2015-12-07
-        if(nHeight > 158000+((576*30)*15)) ret += blockValue / 40; // 417200 - 57.5% - 2016-02-08
-        if(nHeight > 158000+((576*30)*17)) ret += blockValue / 40; // 451760 - 60.0% - 2016-04-11
-    */
+    int64_t ret = blockValue * 0.5; // start at 40%
 
     return ret;
 }
@@ -2928,112 +2859,112 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
 {
     // These are checks that are independent of context.
 
-    // Check that the header is valid (particularly PoW).  This is mostly
-    // redundant with the call in AcceptBlockHeader.
-    if (!CheckBlockHeader(block, state, fCheckPOW))
-        return false;
+        // Check that the header is valid (particularly PoW).  This is mostly
+        // redundant with the call in AcceptBlockHeader.
+        if (!CheckBlockHeader(block, state, fCheckPOW))
+            return false;
 
-    // Check the merkle root.
-    if (fCheckMerkleRoot) {
-        bool mutated;
-        uint256 hashMerkleRoot2 = block.BuildMerkleTree(&mutated);
-        if (block.hashMerkleRoot != hashMerkleRoot2)
-            return state.DoS(100, error("CheckBlock() : hashMerkleRoot mismatch"),
-                             REJECT_INVALID, "bad-txnmrklroot", true);
+        // Check the merkle root.
+        if (fCheckMerkleRoot) {
+            bool mutated;
+            uint256 hashMerkleRoot2 = block.BuildMerkleTree(&mutated);
+            if (block.hashMerkleRoot != hashMerkleRoot2)
+                return state.DoS(100, error("CheckBlock() : hashMerkleRoot mismatch"),
+                                 REJECT_INVALID, "bad-txnmrklroot", true);
 
-        // Check for merkle tree malleability (CVE-2012-2459): repeating sequences
-        // of transactions in a block without affecting the merkle root of a block,
-        // while still invalidating it.
-        if (mutated)
-            return state.DoS(100, error("CheckBlock() : duplicate transaction"),
-                             REJECT_INVALID, "bad-txns-duplicate", true);
-    }
+            // Check for merkle tree malleability (CVE-2012-2459): repeating sequences
+            // of transactions in a block without affecting the merkle root of a block,
+            // while still invalidating it.
+            if (mutated)
+                return state.DoS(100, error("CheckBlock() : duplicate transaction"),
+                                 REJECT_INVALID, "bad-txns-duplicate", true);
+        }
 
-    // All potential-corruption validation must be done before we do any
-    // transaction validation, as otherwise we may mark the header as invalid
-    // because we receive the wrong transactions for it.
+        // All potential-corruption validation must be done before we do any
+        // transaction validation, as otherwise we may mark the header as invalid
+        // because we receive the wrong transactions for it.
 
-    // Size limits
-    if (block.vtx.empty() || block.vtx.size() > MAX_BLOCK_SIZE || ::GetSerializeSize(block, SER_NETWORK, PROTOCOL_VERSION) > MAX_BLOCK_SIZE)
-        return state.DoS(100, error("CheckBlock() : size limits failed"),
-                         REJECT_INVALID, "bad-blk-length");
+        // Size limits
+        if (block.vtx.empty() || block.vtx.size() > MAX_BLOCK_SIZE || ::GetSerializeSize(block, SER_NETWORK, PROTOCOL_VERSION) > MAX_BLOCK_SIZE)
+            return state.DoS(100, error("CheckBlock() : size limits failed"),
+                             REJECT_INVALID, "bad-blk-length");
 
-    // First transaction must be coinbase, the rest must not be
-    if (block.vtx.empty() || !block.vtx[0].IsCoinBase())
-        return state.DoS(100, error("CheckBlock() : first tx is not coinbase"),
-                         REJECT_INVALID, "bad-cb-missing");
-    for (unsigned int i = 1; i < block.vtx.size(); i++)
-        if (block.vtx[i].IsCoinBase())
-            return state.DoS(100, error("CheckBlock() : more than one coinbase"),
-                             REJECT_INVALID, "bad-cb-multiple");
+        // First transaction must be coinbase, the rest must not be
+        if (block.vtx.empty() || !block.vtx[0].IsCoinBase())
+            return state.DoS(100, error("CheckBlock() : first tx is not coinbase"),
+                             REJECT_INVALID, "bad-cb-missing");
+        for (unsigned int i = 1; i < block.vtx.size(); i++)
+            if (block.vtx[i].IsCoinBase())
+                return state.DoS(100, error("CheckBlock() : more than one coinbase"),
+                                 REJECT_INVALID, "bad-cb-multiple");
 
 
-    // ----------- instantX transaction scanning -----------
+        // ----------- instantX transaction scanning -----------
 
-    if(IsSporkActive(SPORK_3_INSTANTX_BLOCK_FILTERING)){
-        BOOST_FOREACH(const CTransaction& tx, block.vtx){
-            if (!tx.IsCoinBase()){
-                //only reject blocks when it's based on complete consensus
-                BOOST_FOREACH(const CTxIn& in, tx.vin){
-                    if(mapLockedInputs.count(in.prevout)){
-                        if(mapLockedInputs[in.prevout] != tx.GetHash()){
-                            mapRejectedBlocks.insert(make_pair(block.GetHash(), GetTime()));
-                            LogPrintf("CheckBlock() : found conflicting transaction with transaction lock %s %s\n", mapLockedInputs[in.prevout].ToString(), tx.GetHash().ToString());
-                            return state.DoS(0, error("CheckBlock() : found conflicting transaction with transaction lock"),
-                                             REJECT_INVALID, "conflicting-tx-ix");
+        if(IsSporkActive(SPORK_3_INSTANTX_BLOCK_FILTERING)){
+            BOOST_FOREACH(const CTransaction& tx, block.vtx){
+                if (!tx.IsCoinBase()){
+                    //only reject blocks when it's based on complete consensus
+                    BOOST_FOREACH(const CTxIn& in, tx.vin){
+                        if(mapLockedInputs.count(in.prevout)){
+                            if(mapLockedInputs[in.prevout] != tx.GetHash()){
+                                mapRejectedBlocks.insert(make_pair(block.GetHash(), GetTime()));
+                                LogPrintf("CheckBlock() : found conflicting transaction with transaction lock %s %s\n", mapLockedInputs[in.prevout].ToString(), tx.GetHash().ToString());
+                                return state.DoS(0, error("CheckBlock() : found conflicting transaction with transaction lock"),
+                                                 REJECT_INVALID, "conflicting-tx-ix");
+                            }
                         }
                     }
                 }
             }
-        }
-    } else {
-        LogPrintf("CheckBlock() : skipping transaction locking checks\n");
-    }
-
-
-    // ----------- masternode payments / budgets -----------
-
-    CBlockIndex* pindexPrev = chainActive.Tip();
-    if(pindexPrev != NULL)
-    {
-        int nHeight = 0;
-        if(pindexPrev->GetBlockHash() == block.hashPrevBlock)
-        {
-            nHeight = pindexPrev->nHeight+1;
-        } else { //out of order
-            BlockMap::iterator mi = mapBlockIndex.find(block.hashPrevBlock);
-            if (mi != mapBlockIndex.end() && (*mi).second)
-                nHeight = (*mi).second->nHeight+1;
-        }
-
-        if(nHeight != 0){
-            if(!IsBlockPayeeValid(block.vtx[0], nHeight))
-            {
-                mapRejectedBlocks.insert(make_pair(block.GetHash(), GetTime()));
-                return state.DoS(100, error("CheckBlock() : Couldn't find masternode/budget payment"));
-            }
         } else {
-            LogPrintf("CheckBlock() : WARNING: Couldn't find previous block, skipping IsBlockPayeeValid()\n");
+            LogPrintf("CheckBlock() : skipping transaction locking checks\n");
         }
-    }
 
-    // -------------------------------------------
 
-    // Check transactions
-    BOOST_FOREACH(const CTransaction& tx, block.vtx)
-        if (!CheckTransaction(tx, state))
-            return error("CheckBlock() : CheckTransaction failed");
+        // ----------- masternode payments / budgets -----------
 
-    unsigned int nSigOps = 0;
-    BOOST_FOREACH(const CTransaction& tx, block.vtx)
-    {
-        nSigOps += GetLegacySigOpCount(tx);
-    }
-    if (nSigOps > MAX_BLOCK_SIGOPS)
-        return state.DoS(100, error("CheckBlock() : out-of-bounds SigOpCount"),
-                         REJECT_INVALID, "bad-blk-sigops", true);
+        CBlockIndex* pindexPrev = chainActive.Tip();
+        if(pindexPrev != NULL)
+        {
+            int nHeight = 0;
+            if(pindexPrev->GetBlockHash() == block.hashPrevBlock)
+            {
+                nHeight = pindexPrev->nHeight+1;
+            } else { //out of order
+                BlockMap::iterator mi = mapBlockIndex.find(block.hashPrevBlock);
+                if (mi != mapBlockIndex.end() && (*mi).second)
+                    nHeight = (*mi).second->nHeight+1;
+            }
 
-    return true;
+            if(nHeight != 0){
+                if(!IsBlockPayeeValid(block.vtx[0], nHeight))
+                {
+                    mapRejectedBlocks.insert(make_pair(block.GetHash(), GetTime()));
+                    return state.DoS(100, error("CheckBlock() : Couldn't find masternode/budget payment"));
+                }
+            } else {
+                LogPrintf("CheckBlock() : WARNING: Couldn't find previous block, skipping IsBlockPayeeValid()\n");
+            }
+        }
+
+        // -------------------------------------------
+
+        // Check transactions
+        BOOST_FOREACH(const CTransaction& tx, block.vtx)
+            if (!CheckTransaction(tx, state))
+                return error("CheckBlock() : CheckTransaction failed");
+
+        unsigned int nSigOps = 0;
+        BOOST_FOREACH(const CTransaction& tx, block.vtx)
+        {
+            nSigOps += GetLegacySigOpCount(tx);
+        }
+        if (nSigOps > MAX_BLOCK_SIGOPS)
+            return state.DoS(100, error("CheckBlock() : out-of-bounds SigOpCount"),
+                             REJECT_INVALID, "bad-blk-sigops", true);
+
+        return true;
 }
 
 bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& state, CBlockIndex * const pindexPrev)

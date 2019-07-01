@@ -19,14 +19,14 @@ BEGIN
     BEGIN
         BLOCK "040904E4" // U.S. English - multilingual (hex)
         BEGIN
-            VALUE "CompanyName",        "Dash"
-            VALUE "FileDescription",    "Dash Core (OSS GUI client for Dash)"
+            VALUE "CompanyName",        "RussellCoin"
+            VALUE "FileDescription",    "RussellCoin Core (OSS GUI client for RussellCoin)"
             VALUE "FileVersion",        VER_FILEVERSION_STR
-            VALUE "InternalName",       "dash-qt"
+            VALUE "InternalName",       "RussellCoin-qt"
             VALUE "LegalCopyright",     COPYRIGHT_STR
             VALUE "LegalTrademarks1",   "Distributed under the MIT/X11 software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php."
-            VALUE "OriginalFilename",   "dash-qt.exe"
-            VALUE "ProductName",        "Dash Core"
+            VALUE "OriginalFilename",   "RussellCoin-qt.exe"
+            VALUE "ProductName",        "RussellCoin Core"
             VALUE "ProductVersion",     VER_PRODUCTVERSION_STR
         END
     END

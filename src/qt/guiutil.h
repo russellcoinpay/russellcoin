@@ -106,7 +106,7 @@ namespace GUIUtil
     // Open debug.log
     void openDebugLogfile();
 	
-    // Open dash.conf
+    // Open RussellCoin.conf
     void openConfigfile();	
     
     // Browse backup folder

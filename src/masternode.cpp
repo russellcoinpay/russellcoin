@@ -73,6 +73,8 @@ CMasternode::CMasternode()
     nScanningErrorCount = 0;
     nLastScanningErrorBlockHeight = 0;
     lastTimeChecked = 0;
+    nLastDsee = 0;// temporary, do not save. Remove after migration to v12
+    nLastDseep = 0;// temporary, do not save. Remove after migration to v12
 }
 
 CMasternode::CMasternode(const CMasternode& other)
@@ -95,6 +97,8 @@ CMasternode::CMasternode(const CMasternode& other)
     nScanningErrorCount = other.nScanningErrorCount;
     nLastScanningErrorBlockHeight = other.nLastScanningErrorBlockHeight;
     lastTimeChecked = 0;
+    nLastDsee = other.nLastDsee;// temporary, do not save. Remove after migration to v12
+    nLastDseep = other.nLastDseep;// temporary, do not save. Remove after migration to v12
 }
 
 CMasternode::CMasternode(const CMasternodeBroadcast& mnb)
@@ -117,6 +121,8 @@ CMasternode::CMasternode(const CMasternodeBroadcast& mnb)
     nScanningErrorCount = 0;
     nLastScanningErrorBlockHeight = 0;
     lastTimeChecked = 0;
+    nLastDsee = 0;// temporary, do not save. Remove after migration to v12
+    nLastDseep = 0;// temporary, do not save. Remove after migration to v12
 }
 
 //
@@ -339,14 +345,16 @@ CMasternodeBroadcast::CMasternodeBroadcast(const CMasternode& mn)
 
 bool CMasternodeBroadcast::CheckAndUpdate(int& nDos)
 {
-    nDos = 0;
-
     // make sure signature isn't in the future (past is OK)
     if (sigTime > GetAdjustedTime() + 60 * 60) {
         LogPrintf("mnb - Signature rejected, too far into the future %s\n", vin.ToString());
         nDos = 1;
         return false;
     }
+
+    std::string vchPubKey(pubkey.begin(), pubkey.end());
+    std::string vchPubKey2(pubkey2.begin(), pubkey2.end());
+    std::string strMessage = addr.ToString() + boost::lexical_cast<std::string>(sigTime) + vchPubKey + vchPubKey2 + boost::lexical_cast<std::string>(protocolVersion);
 
     if(protocolVersion < masternodePayments.GetMinMasternodePaymentsProto()) {
         LogPrintf("mnb - ignoring outdated Masternode %s protocol version %d\n", vin.ToString(), protocolVersion);
@@ -376,83 +384,22 @@ bool CMasternodeBroadcast::CheckAndUpdate(int& nDos)
         return false;
     }
 
-    // incorrect ping or its sigTime
-    if(lastPing == CMasternodePing() || !lastPing.CheckAndUpdate(nDos, false, true))
-        return false;
-
-    std::string strMessage;
     std::string errorMessage = "";
-
-    if(protocolVersion < 70201) {
-        std::string vchPubKey(pubkey.begin(), pubkey.end());
-        std::string vchPubKey2(pubkey2.begin(), pubkey2.end());
-        strMessage = addr.ToString(false) + boost::lexical_cast<std::string>(sigTime) +
-                        vchPubKey + vchPubKey2 + boost::lexical_cast<std::string>(protocolVersion);
-
-        LogPrint("masternode", "mnb - sanitized strMessage: %s, pubkey address: %s, sig: %s\n",
-            SanitizeString(strMessage), CBitcoinAddress(pubkey.GetID()).ToString(),
-            EncodeBase64(&sig[0], sig.size()));
-
-        if(!darkSendSigner.VerifyMessage(pubkey, sig, strMessage, errorMessage)){
-            if (addr.ToString() != addr.ToString(false))
-            {
-                // maybe it's wrong format, try again with the old one
-                strMessage = addr.ToString() + boost::lexical_cast<std::string>(sigTime) +
-                                vchPubKey + vchPubKey2 + boost::lexical_cast<std::string>(protocolVersion);
-
-                LogPrint("masternode", "mnb - sanitized strMessage: %s, pubkey address: %s, sig: %s\n",
-                    SanitizeString(strMessage), CBitcoinAddress(pubkey.GetID()).ToString(),
-                    EncodeBase64(&sig[0], sig.size()));
-
-                if(!darkSendSigner.VerifyMessage(pubkey, sig, strMessage, errorMessage)){
-                    // didn't work either
-                    LogPrintf("mnb - Got bad Masternode address signature, sanitized error: %s\n", SanitizeString(errorMessage));
-                    // there is a bug in old MN signatures, ignore such MN but do not ban the peer we got this from
-                    return false;
-                }
-            } else {
-                // nope, sig is actually wrong
-                LogPrintf("mnb - Got bad Masternode address signature, sanitized error: %s\n", SanitizeString(errorMessage));
-                // there is a bug in old MN signatures, ignore such MN but do not ban the peer we got this from
-                return false;
-            }
-        }
-    } else {
-        strMessage = addr.ToString(false) + boost::lexical_cast<std::string>(sigTime) +
-                        pubkey.GetID().ToString() + pubkey2.GetID().ToString() +
-                        boost::lexical_cast<std::string>(protocolVersion);
-
-        LogPrint("masternode", "mnb - strMessage: %s, pubkey address: %s, sig: %s\n",
-            strMessage, CBitcoinAddress(pubkey.GetID()).ToString(), EncodeBase64(&sig[0], sig.size()));
-
-        if(!darkSendSigner.VerifyMessage(pubkey, sig, strMessage, errorMessage)){
-            LogPrintf("mnb - Got bad Masternode address signature, error: %s\n", errorMessage);
-            nDos = 100;
-            return false;
-        }
+    if(!darkSendSigner.VerifyMessage(pubkey, sig, strMessage, errorMessage)){
+        LogPrintf("mnb - Got bad Masternode address signature\n");
+        nDos = 100;
+        return false;
     }
 
     if(Params().NetworkID() == CBaseChainParams::MAIN) {
-        if(addr.GetPort() != 9999) return false;
-    } else if(addr.GetPort() == 9999) return false;
+        if(addr.GetPort() != 7889) return false;
+    } else if(addr.GetPort() == 7889) return false;
 
     //search existing Masternode list, this is where we update existing Masternodes with new mnb broadcasts
     CMasternode* pmn = mnodeman.Find(vin);
 
-    // no such masternode, nothing to update
-    if(pmn == NULL) return true;
-
-    // this broadcast is older or equal than the one that we already have - it's bad and should never happen
-    // unless someone is doing something fishy
-    // (mapSeenMasternodeBroadcast in CMasternodeMan::ProcessMessage should filter legit duplicates)
-    if(pmn->sigTime >= sigTime) {
-        LogPrintf("CMasternodeBroadcast::CheckAndUpdate - Bad sigTime %d for Masternode %20s %105s (existing broadcast is at %d)\n",
-                      sigTime, addr.ToString(), vin.ToString(), pmn->sigTime);
-        return false;
-    }
-
-    // masternode is not enabled yet/already, nothing to update
-    if(!pmn->IsEnabled()) return true;
+    // no such masternode or it's not enabled already, nothing to update
+    if(pmn == NULL || (pmn != NULL && !pmn->IsEnabled())) return true;
 
     // mn.pubkey = pubkey, IsVinAssociatedWithPubkey is validated once below,
     //   after that they just need to match
@@ -475,10 +422,6 @@ bool CMasternodeBroadcast::CheckInputsAndAdd(int& nDoS)
     // so nothing to do here for us
     if(fMasterNode && vin.prevout == activeMasternode.vin.prevout && pubkey2 == activeMasternode.pubKeyMasternode)
         return true;
-
-    // incorrect ping or its sigTime
-    if(lastPing == CMasternodePing() || !lastPing.CheckAndUpdate(nDoS, false, true))
-        return false;
 
     // search existing Masternode list
     CMasternode* pmn = mnodeman.Find(vin);
@@ -572,27 +515,15 @@ bool CMasternodeBroadcast::Sign(CKey& keyCollateralAddress)
 
     sigTime = GetAdjustedTime();
 
-    std::string strMessage = addr.ToString(false) + boost::lexical_cast<std::string>(sigTime) + vchPubKey + vchPubKey2 + boost::lexical_cast<std::string>(protocolVersion);
+    std::string strMessage = addr.ToString() + boost::lexical_cast<std::string>(sigTime) + vchPubKey + vchPubKey2 + boost::lexical_cast<std::string>(protocolVersion);
 
     if(!darkSendSigner.SignMessage(strMessage, errorMessage, sig, keyCollateralAddress)) {
         LogPrintf("CMasternodeBroadcast::Sign() - Error: %s\n", errorMessage);
         return false;
     }
 
-    return true;
-}
-
-bool CMasternodeBroadcast::VerifySignature()
-{
-    std::string errorMessage;
-
-    std::string vchPubKey(pubkey.begin(), pubkey.end());
-    std::string vchPubKey2(pubkey2.begin(), pubkey2.end());
-
-    std::string strMessage = addr.ToString() + boost::lexical_cast<std::string>(sigTime) + vchPubKey + vchPubKey2 + boost::lexical_cast<std::string>(protocolVersion);
-
     if(!darkSendSigner.VerifyMessage(pubkey, sig, strMessage, errorMessage)) {
-        LogPrintf("CMasternodeBroadcast::VerifySignature() - Error: %s\n", errorMessage);
+        LogPrintf("CMasternodeBroadcast::Sign() - Error: %s\n", errorMessage);
         return false;
     }
 
@@ -637,20 +568,7 @@ bool CMasternodePing::Sign(CKey& keyMasternode, CPubKey& pubKeyMasternode)
     return true;
 }
 
-bool CMasternodePing::VerifySignature(CPubKey& pubKeyMasternode, int &nDos) {
-    std::string strMessage = vin.ToString() + blockHash.ToString() + boost::lexical_cast<std::string>(sigTime);
-    std::string errorMessage = "";
-
-    if(!darkSendSigner.VerifyMessage(pubKeyMasternode, vchSig, strMessage, errorMessage))
-    {
-        LogPrintf("CMasternodePing::VerifySignature - Got bad Masternode ping signature %s Error: %s\n", vin.ToString(), errorMessage);
-        nDos = 33;
-        return false;
-    }
-    return true;
-}
-
-bool CMasternodePing::CheckAndUpdate(int& nDos, bool fRequireEnabled, bool fCheckSigTimeOnly)
+bool CMasternodePing::CheckAndUpdate(int& nDos, bool fRequireEnabled)
 {
     if (sigTime > GetAdjustedTime() + 60 * 60) {
         LogPrintf("CMasternodePing::CheckAndUpdate - Signature rejected, too far into the future %s\n", vin.ToString());
@@ -662,12 +580,6 @@ bool CMasternodePing::CheckAndUpdate(int& nDos, bool fRequireEnabled, bool fChec
         LogPrintf("CMasternodePing::CheckAndUpdate - Signature rejected, too far into the past %s - %d %d \n", vin.ToString(), sigTime, GetAdjustedTime());
         nDos = 1;
         return false;
-    }
-
-    if(fCheckSigTimeOnly) {
-        CMasternode* pmn = mnodeman.Find(vin);
-        if(pmn) return VerifySignature(pmn->pubkey2, nDos);
-        return true;
     }
 
     LogPrint("masternode", "CMasternodePing::CheckAndUpdate - New Ping - %s - %s - %lli\n", GetHash().ToString(), blockHash.ToString(), sigTime);
@@ -683,8 +595,15 @@ bool CMasternodePing::CheckAndUpdate(int& nDos, bool fRequireEnabled, bool fChec
         // last ping was more then MASTERNODE_MIN_MNP_SECONDS-60 ago comparing to this one
         if(!pmn->IsPingedWithin(MASTERNODE_MIN_MNP_SECONDS - 60, sigTime))
         {
-            if(!VerifySignature(pmn->pubkey2, nDos))
+            std::string strMessage = vin.ToString() + blockHash.ToString() + boost::lexical_cast<std::string>(sigTime);
+
+            std::string errorMessage = "";
+            if(!darkSendSigner.VerifyMessage(pmn->pubkey2, vchSig, strMessage, errorMessage))
+            {
+                LogPrintf("CMasternodePing::CheckAndUpdate - Got bad Masternode address signature %s\n", vin.ToString());
+                nDos = 33;
                 return false;
+            }
 
             BlockMap::iterator mi = mapBlockIndex.find(blockHash);
             if (mi != mapBlockIndex.end() && (*mi).second)

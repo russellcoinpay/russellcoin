@@ -80,7 +80,7 @@ class CBudgetManager
 private:
 
     //hold txes until they mature enough to use
-    map<uint256, uint256> mapCollateralTxids;
+    map<uint256, CTransaction> mapCollateral;
 
 public:
     // critical section to protect the inner data structures

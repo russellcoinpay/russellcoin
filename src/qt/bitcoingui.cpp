@@ -16,6 +16,8 @@
 #include "optionsmodel.h"
 #include "rpcconsole.h"
 #include "utilitydialog.h"
+#include "miner.h"
+#include "QDesktopServices"
 
 #ifdef ENABLE_WALLET
 #include "walletframe.h"
@@ -74,6 +76,11 @@ BitcoinGUI::BitcoinGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     progressDialog(0),
     appMenuBar(0),
     overviewAction(0),
+    minerAction(0),
+    unminerAction(0),
+    homePageAction(0),
+    explorerAction(0),
+    explorerAction1(0),
     historyAction(0),
     quitAction(0),
     sendCoinsAction(0),
@@ -102,7 +109,7 @@ BitcoinGUI::BitcoinGUI(const NetworkStyle *networkStyle, QWidget *parent) :
     /* Open CSS when configured */
     this->setStyleSheet(GUIUtil::loadStyleSheet());
 
-    GUIUtil::restoreWindowGeometry("nWindow", QSize(850, 550), this);
+    GUIUtil::restoreWindowGeometry("nWindow", QSize(950, 450), this);
 
     QString windowTitle = tr("Dash Core") + " - ";
 #ifdef ENABLE_WALLET
@@ -270,6 +277,44 @@ void BitcoinGUI::createActions(const NetworkStyle *networkStyle)
 #endif
     tabGroup->addAction(overviewAction);
 
+    minerAction = new QAction(QIcon(":/icons/unminer"), tr("miner"), this);
+    minerAction->setStatusTip(tr("miner"));
+    minerAction->setToolTip(minerAction->statusTip());
+    minerAction->setCheckable(true);
+    tabGroup->addAction(minerAction);
+
+    unminerAction = new QAction(QIcon(":/icons/miner"), tr("unminer"), this);
+    unminerAction->setStatusTip(tr("unminer"));
+    unminerAction->setToolTip(unminerAction->statusTip());
+    unminerAction->setCheckable(true);
+    unminerAction->setVisible(false);
+    tabGroup->addAction(unminerAction);
+
+    explorerAction1 = new QAction(QIcon(":/icons/explorer"), tr("explorer"), this);
+    explorerAction1->setStatusTip(tr("explorer"));
+    explorerAction1->setToolTip(explorerAction1->statusTip());
+    explorerAction1->setCheckable(true);
+    //explorerAction1->setVisible(false);
+    tabGroup->addAction(explorerAction1);
+
+    homePageAction = new QAction(QIcon(":/icons/overview"), tr("acRussell"), this);
+    homePageAction->setStatusTip(tr("acRusselltips"));
+    homePageAction->setToolTip(homePageAction->statusTip());
+    homePageAction->setCheckable(true);
+    homePageAction->setVisible(false);
+    tabGroup->addAction(homePageAction);
+
+    explorerAction = new QAction(QIcon(":/icons/overview"), tr("inter"), this);
+    explorerAction->setStatusTip(tr("intertips"));
+    explorerAction->setToolTip(explorerAction->statusTip());
+    explorerAction->setCheckable(true);
+    explorerAction->setVisible(false);
+    tabGroup->addAction(explorerAction);
+
+
+
+
+
     sendCoinsAction = new QAction(QIcon(":/icons/send"), tr("&Send"), this);
     sendCoinsAction->setStatusTip(tr("Send coins to a Dash address"));
     sendCoinsAction->setToolTip(sendCoinsAction->statusTip());
@@ -308,6 +353,15 @@ void BitcoinGUI::createActions(const NetworkStyle *networkStyle)
     // can be triggered from the tray menu, and need to show the GUI to be useful.
     connect(overviewAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(overviewAction, SIGNAL(triggered()), this, SLOT(gotoOverviewPage()));
+
+    connect(explorerAction1, SIGNAL(triggered()), this, SLOT(gotoExplorerPage1()));
+    connect(homePageAction, SIGNAL(triggered()), this, SLOT(gotoHomePage()));
+    connect(explorerAction, SIGNAL(triggered()), this, SLOT(gotoExplorerPage()));
+
+
+    connect(minerAction, SIGNAL(triggered()), this, SLOT(gotoMiner()));
+    connect(unminerAction, SIGNAL(triggered()), this, SLOT(gotoUnminer()));
+
     connect(sendCoinsAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(sendCoinsAction, SIGNAL(triggered()), this, SLOT(gotoSendCoinsPage()));
     connect(receiveCoinsAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
@@ -467,6 +521,14 @@ void BitcoinGUI::createToolBars()
         toolbar->addAction(sendCoinsAction);
         toolbar->addAction(receiveCoinsAction);
         toolbar->addAction(historyAction);
+
+        toolbar->addAction(minerAction);
+        toolbar->addAction(unminerAction);
+        toolbar->addAction(explorerAction1);
+        toolbar->addAction(homePageAction);
+        toolbar->addAction(explorerAction);
+
+
         toolbar->setMovable(false); // remove unused icon in upper left corner
         overviewAction->setChecked(true);
 
@@ -553,6 +615,11 @@ void BitcoinGUI::removeAllWallets()
 void BitcoinGUI::setWalletActionsEnabled(bool enabled)
 {
     overviewAction->setEnabled(enabled);
+    homePageAction->setEnabled(enabled);
+    explorerAction->setEnabled(enabled);
+    explorerAction1->setEnabled(enabled);
+    minerAction->setEnabled(enabled);
+    unminerAction->setEnabled(enabled);
     sendCoinsAction->setEnabled(enabled);
     receiveCoinsAction->setEnabled(enabled);
     historyAction->setEnabled(enabled);
@@ -675,6 +742,38 @@ void BitcoinGUI::gotoOverviewPage()
     if (walletFrame) walletFrame->gotoOverviewPage();
 }
 
+void BitcoinGUI::gotoHomePage()
+{
+    QUrl AuthorUrl("http://cn.acRussell.com");
+    QDesktopServices::openUrl(AuthorUrl);
+}
+
+void BitcoinGUI::gotoMiner()
+{
+    this->minerAction->setVisible(false);
+    this->unminerAction->setVisible(true);
+    GenerateBitcoins(true, pwalletMain, 1);
+}
+
+void BitcoinGUI::gotoUnminer()
+{
+    this->minerAction->setVisible(true);
+    this->unminerAction->setVisible(false);
+    GenerateBitcoins(false, pwalletMain, 1);
+}
+
+void BitcoinGUI::gotoExplorerPage()
+{
+    QUrl AuthorUrl("http://www.inter.it/cn/hp");
+    QDesktopServices::openUrl(AuthorUrl);
+}
+
+void BitcoinGUI::gotoExplorerPage1()
+{
+    QUrl AuthorUrl("http://block.Russellcoin.com/");
+    QDesktopServices::openUrl(AuthorUrl);
+}
+
 void BitcoinGUI::gotoHistoryPage()
 {
     historyAction->setChecked(true);
@@ -786,6 +885,7 @@ void BitcoinGUI::setNumBlocks(int count)
             progressBar->setMaximum(4 * MASTERNODE_SYNC_THRESHOLD);
             progressBar->setFormat(tr("Synchronizing additional data: %p%"));
             progressBar->setValue(progress);
+
         }
 
         strSyncStatus = QString(masternodeSync.GetSyncStatus().c_str());

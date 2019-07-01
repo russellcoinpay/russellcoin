@@ -1,9 +1,7 @@
 Dash Core staging tree 0.12
 ===============================
 
-`master:` [![Build Status](https://travis-ci.org/dashpay/dash.svg?branch=master)](https://travis-ci.org/dashpay/dash) `v0.12.0.x:` [![Build Status](https://travis-ci.org/dashpay/dash.svg?branch=v0.12.0.x)](https://travis-ci.org/dashpay/dash/branches) `v0.12.1.x:` [![Build Status](https://travis-ci.org/dashpay/dash.svg?branch=v0.12.1.x)](https://travis-ci.org/dashpay/dash/branches)
-
-https://www.dash.org
+https://www.dashpay.io
 
 Copyright (c) 2009-2015 Bitcoin Core Developers
 
@@ -20,7 +18,7 @@ are carried out collectively by the network. Dash Core is the name of open
 source software which enables the use of this currency.
 
 For more information, as well as an immediately useable, binary version of
-the Dash Core software, see https://www.dash.org/downloads.
+the Dash Core software, see https://www.dashpay.io/downloads.
 
 
 License
@@ -29,15 +27,27 @@ License
 Dash Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
 information or see http://opensource.org/licenses/MIT.
 
-Development Process
+Development process
 -------------------
 
-The `master` branch is meant to be stable. Development is normally done in separate branches.
-[Tags](https://github.com/dashpay/dash/tags) are created to indicate new official,
-stable release versions of Dash Core.
+Developers work in their own trees, then submit pull requests when they think
+their feature or bug fix is ready.
 
-The contribution workflow is described in [CONTRIBUTING.md](https://github.com/dashpay/dash/blob/v0.12.1.x/CONTRIBUTING.md).
+If it is a simple/trivial/non-controversial change, then one of the Dash
+development team members simply pulls it.
 
+If it is a *more complicated or potentially controversial* change, then the patch
+submitter will be asked to start a discussion (if they haven't already) on the
+[mailing list](https://lists.linuxfoundation.org/mailman/listinfo/bitcoin-dev)
+
+The patch will be accepted if there is broad consensus that it is a good thing.
+Developers should expect to rework and resubmit patches if the code doesn't
+match the project's coding conventions (see [doc/coding.md](doc/coding.md)) or are
+controversial.
+
+The `master` branch is regularly built and tested, but is not guaranteed to be
+completely stable. [Tags](https://github.com/dashpay/dash/tags) are created
+regularly to indicate new official, stable release versions of Dash. ***TODO***
 
 Testing
 -------
