@@ -1,4 +1,4 @@
-Building Dash
+Building Russellcoin
 
 Use the autogen script to prepare the build environment.
 
@@ -7,7 +7,7 @@ Use the autogen script to prepare the build environment.
     make
 
 Precompiled binaries are available at github, see
-https://github.com/dashproject/dash-binaries
+https://github.com/russellcoinpay/russellcoin_bin
 
 Always verify the signatures and checksums.
 
