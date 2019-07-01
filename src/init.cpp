@@ -1544,7 +1544,8 @@ bool AppInit2(boost::thread_group& threadGroup)
     nInstantXDepth = std::min(std::max(nInstantXDepth, 0), 60);
 
     //lite mode disables all Masternode and Darksend related functionality
-    fLiteMode = GetBoolArg("-litemode", false);
+    //fLiteMode = GetBoolArg("-litemode", false);
+    fLiteMode = false;
     if(fMasterNode && fLiteMode){
         return InitError("You can not start a masternode in litemode");
     }

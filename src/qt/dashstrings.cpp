@@ -139,7 +139,7 @@ QT_TRANSLATE_NOOP("dash-core", ""
 "Set the number of threads for coin generation if enabled (-1 = all cores, "
 "default: %d)"),
 QT_TRANSLATE_NOOP("dash-core", ""
-"Show N confirmations for a successfully locked transaction (0-7889, default: "
+"Show N confirmations for a successfully locked transaction (0-8321, default: "
 "%u)"),
 QT_TRANSLATE_NOOP("dash-core", ""
 "This is a pre-release test build - use at your own risk - do not use for "
@@ -205,10 +205,10 @@ QT_TRANSLATE_NOOP("dash-core", ""
 QT_TRANSLATE_NOOP("dash-core", ""
 "You must specify a masternodeprivkey in the configuration. Please see "
 "documentation for help."),
-QT_TRANSLATE_NOOP("dash-core", "(7889 could be used only on mainnet)"),
+QT_TRANSLATE_NOOP("dash-core", "(8321 could be used only on mainnet)"),
 QT_TRANSLATE_NOOP("dash-core", "(default: %s)"),
 QT_TRANSLATE_NOOP("dash-core", "(default: 1)"),
-QT_TRANSLATE_NOOP("dash-core", "(must be 7889 for mainnet)"),
+QT_TRANSLATE_NOOP("dash-core", "(must be 8321 for mainnet)"),
 QT_TRANSLATE_NOOP("dash-core", "<category> can be:\n"),
 QT_TRANSLATE_NOOP("dash-core", "Accept command line and JSON-RPC commands"),
 QT_TRANSLATE_NOOP("dash-core", "Accept connections from outside (default: 1 if no -proxy or -connect)"),

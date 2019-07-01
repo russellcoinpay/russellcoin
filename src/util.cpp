@@ -423,7 +423,7 @@ boost::filesystem::path GetDefaultDataDir()
     // Unix: ~/.dash
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "RussellCoin";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "russellcoin2";
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -435,10 +435,10 @@ boost::filesystem::path GetDefaultDataDir()
     // Mac
     pathRet /= "Library/Application Support";
     TryCreateDirectory(pathRet);
-    return pathRet / "RussellCoin";
+    return pathRet / "russellcoin2";
 #else
     // Unix
-    return pathRet / ".RussellCoin";
+    return pathRet / ".russellcoin2";
 #endif
 #endif
 }
@@ -485,7 +485,7 @@ void ClearDatadirCache()
 
 boost::filesystem::path GetConfigFile()
 {
-    boost::filesystem::path pathConfigFile(GetArg("-conf", "RussellCoin.conf"));
+    boost::filesystem::path pathConfigFile(GetArg("-conf", "russellcoin.conf"));
     if (!pathConfigFile.is_complete())
         pathConfigFile = GetDataDir(false) / pathConfigFile;
 

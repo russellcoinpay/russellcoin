@@ -272,7 +272,7 @@ Value getmininginfo(const Array& params, bool fHelp)
 // NOTE: Unlike wallet RPC (which use BTC values), mining RPCs follow GBT (BIP 22) in using satoshi amounts
 Value prioritisetransaction(const Array& params, bool fHelp)
 {
-    return false;
+    //return false;
     if (fHelp || params.size() != 3)
         throw runtime_error(
             "prioritisetransaction <txid> <priority delta> <fee delta>\n"
@@ -322,7 +322,7 @@ static Value BIP22ValidationResult(const CValidationState& state)
 
 Value getblocktemplate(const Array& params, bool fHelp)
 {
-    return Value::null;
+    //return "duplicate";
     if (fHelp || params.size() > 1)
         throw runtime_error(
             "getblocktemplate ( \"jsonrequestobject\" )\n"
@@ -644,7 +644,7 @@ protected:
 
 Value submitblock(const Array& params, bool fHelp)
 {
-    return "invaliate";
+    //return "duplicate";
     if (fHelp || params.size() < 1 || params.size() > 2)
         throw runtime_error(
             "submitblock \"hexdata\" ( \"jsonparametersobject\" )\n"

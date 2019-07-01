@@ -303,11 +303,11 @@ static const CRPCCommand vRPCCommands[] =
     { "util",               "estimatefee",            &estimatefee,            true,      true,       false },
     { "util",               "estimatepriority",       &estimatepriority,       true,      true,       false },
 
-    /* Not shown in help
+    /* Not shown in help*/
     { "hidden",             "invalidateblock",        &invalidateblock,        true,      true,       false },
     { "hidden",             "reconsiderblock",        &reconsiderblock,        true,      true,       false },
     { "hidden",             "setmocktime",            &setmocktime,            true,      false,      false },
-    */
+
     /* Dash features */
     { "RussellCoin",               "masternode",             &masternode,             true,      true,       false },
     { "RussellCoin",               "masternodelist",         &masternodelist,         true,      true,       false },

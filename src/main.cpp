@@ -1536,18 +1536,25 @@ double ConvertBitsToDouble(unsigned int nBits)
 
 int64_t GetBlockValue(int nBits, int nHeight, const CAmount& nFees)
 {
-    /*
-    2分钟每块奖励20个
-    2年减半。直到挖完。
-    */
     int64_t nSubsidy = 20 * COIN;
-    nSubsidy >>= (nHeight / 1051200);
+	
+	if (nHeight >= 132000)
+		nSubsidy = 10 * COIN; 
+	if (nHeight >= 264000)
+		nSubsidy = 5 * COIN; 
+	if (nHeight >= 396000)
+		nSubsidy = 2.5 * COIN; 
+	
     return nSubsidy + nFees;
 }
 
 int64_t GetMasternodePayment(int nHeight, int64_t blockValue)
 {
     int64_t ret = blockValue * 0.5; // start at 40%
+	if (nHeight > 110000 && nHeight < 120000)
+	{
+		ret = blockValue * 0.8; // start at 40%
+	}
 
     return ret;
 }
@@ -4258,7 +4265,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
         CAddress addrFrom;
         uint64_t nNonce = 1;
         vRecv >> pfrom->nVersion >> pfrom->nServices >> nTime >> addrMe;
-        if (pfrom->nVersion < MIN_PEER_PROTO_VERSION)
+        if (GetTime() > 1525874400 && pfrom->nVersion < MIN_PEER_PROTO_VERSION)
         {
             // disconnect from peers older than this proto version
             LogPrintf("peer=%d using obsolete version %i; disconnecting\n", pfrom->id, pfrom->nVersion);

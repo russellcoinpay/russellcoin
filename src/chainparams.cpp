@@ -57,6 +57,8 @@ static void convertSeed6(std::vector<CAddress> &vSeedsOut, const SeedSpec6 *data
 static Checkpoints::MapCheckpoints mapCheckpoints =
         boost::assign::map_list_of
         (0, uint256("0x4d1872cb6087d31d27a97c9be3ef7a0571faa5b23e5dc0716130023b38328d6c"))
+       // (123579, uint256("0x00000007bf56ae78f92799fe32d66ebebd3deec3b2e2de1cb2395de45d1c3567"))
+       (125000, uint256("0x000000000035ac147b439936e40a1d19e8aadfdd3dd4de69b6b97c548e79785b"))
         ;
 static const Checkpoints::CCheckpointData data = {
         &mapCheckpoints,
@@ -102,7 +104,7 @@ public:
         pchMessageStart[2] = 0x6b;
         pchMessageStart[3] = 0xbd;
         vAlertPubKey = ParseHex("048240a8748a80a286b270ba126705ced4f2ce5a7847b3610ea3c06513150dade2a8512ed5ea86320824683fc0818f0ac019214973e677acd1244f6d0571fc5103");
-        nDefaultPort = 7889;
+        nDefaultPort = 8321;
         bnProofOfWorkLimit = ~uint256(0) >> 20;  // Dash starting difficulty is 1 / 2^12
         nSubsidyHalvingInterval = 210000;
         nEnforceBlockUpgradeMajority = 750;
@@ -148,8 +150,8 @@ public:
         assert(genesis.hashMerkleRoot == uint256("0xe0028eb9648db56b1ac77cf090b99048a8007e2bb64b68f092c03c7f56a662c7"));
 
 
-        vSeeds.push_back(CDNSSeedData("103.68.180.251", "103.68.180.251"));
-        vSeeds.push_back(CDNSSeedData("103.68.180.220", "103.68.180.220"));
+        vSeeds.push_back(CDNSSeedData("112.73.24.207", "112.73.24.207"));
+        vSeeds.push_back(CDNSSeedData("112.73.24.211", "112.73.24.211"));
 
         base58Prefixes[PUBKEY_ADDRESS] = list_of( 60);                    // Dash addresses start with 'X'
         base58Prefixes[SCRIPT_ADDRESS] = list_of( 16);                    // Dash script addresses start with '7'
