@@ -46,7 +46,7 @@ static const int MAX_URI_LENGTH = 255;
 #define SPINNER_FRAMES 35
 
 #define QAPP_ORG_NAME "RussellCoin2"
-#define QAPP_ORG_DOMAIN "dashpay.io"
+#define QAPP_ORG_DOMAIN "russellcoin.com"
 #define QAPP_APP_NAME_DEFAULT "RussellCoin2-Qt"
 #define QAPP_APP_NAME_TESTNET "RussellCoin2-Qt-testnet"
 
