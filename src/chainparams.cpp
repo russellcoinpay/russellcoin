@@ -149,7 +149,7 @@ public:
         assert(hashGenesisBlock == uint256("0x4d1872cb6087d31d27a97c9be3ef7a0571faa5b23e5dc0716130023b38328d6c"));
         assert(genesis.hashMerkleRoot == uint256("0xe0028eb9648db56b1ac77cf090b99048a8007e2bb64b68f092c03c7f56a662c7"));
 
-
+        vSeeds.push_back(CDNSSeedData("39.106.26.60", "39.106.26.60"));
         vSeeds.push_back(CDNSSeedData("112.73.24.207", "112.73.24.207"));
         vSeeds.push_back(CDNSSeedData("112.73.24.211", "112.73.24.211"));
 
