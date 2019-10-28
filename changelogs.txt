@@ -1,6 +1,10 @@
 English:
 changelogs
 
+2.4.2:
+  1.Replaced the new server and tried to solve: unable to synchronize, slow synchronization, not connected to the node.
+
+
 2.3~2.4.1:
   1.reduce the volume (in order to facilitate sharing and dissemination, add upx shell to the windows version, such as suspected virus, you can self-shell verification)
   2.improved some of the performance (newer version of gcc compiler, although the memory footprint has become larger, but the performance has improved)
@@ -12,6 +16,10 @@ changelogs
   
 中文:
 更新日志
+
+2.4.2:
+  1、更换了新的服务器尝试解决：无法同步，同步慢，连不上节点
+
 
 2.3~2.4.1:
   1、减小了体积（为了便于分享传播，对windows版本的添加upx壳，如怀疑病毒，可自行脱壳校验）

@@ -1,4 +1,4 @@
-Russellcoin Core staging tree 2.4.1
+Russellcoin Core staging tree 2.4.2
 ===============================
 
 http://www.russellcoin.com
