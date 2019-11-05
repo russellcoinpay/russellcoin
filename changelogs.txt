@@ -1,6 +1,9 @@
 English:
 changelogs
 
+2.4.3:
+    1.More servers have been added to try to solve the connection problems in mainland China: unable to synchronize, slow synchronization, not connected to the node.
+
 2.4.2:
   1.Replaced the new server and tried to solve: unable to synchronize, slow synchronization, not connected to the node.
 
@@ -16,6 +19,9 @@ changelogs
   
 中文:
 更新日志
+
+2.4.3:
+  1、添加了更多服务器尝试解决大陆境内的连接问题：无法同步，同步慢，连不上节点
 
 2.4.2:
   1、更换了新的服务器尝试解决：无法同步，同步慢，连不上节点

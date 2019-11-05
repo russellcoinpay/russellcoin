@@ -149,13 +149,13 @@ public:
         assert(hashGenesisBlock == uint256("0x4d1872cb6087d31d27a97c9be3ef7a0571faa5b23e5dc0716130023b38328d6c"));
         assert(genesis.hashMerkleRoot == uint256("0xe0028eb9648db56b1ac77cf090b99048a8007e2bb64b68f092c03c7f56a662c7"));
 
-        vSeeds.push_back(CDNSSeedData("45.63.84.87", "45.63.84.87"));           //node1 US
-        vSeeds.push_back(CDNSSeedData("139.180.193.231", "139.180.193.231"));   //node2 tokyo
-        vSeeds.push_back(CDNSSeedData("45.76.193.50", "45.76.193.50"));         //node3 tokyo
-        vSeeds.push_back(CDNSSeedData("139.180.136.18", "139.180.136.18"));     //node4 sina vultr
-        vSeeds.push_back(CDNSSeedData("47.240.28.73", "47.240.28.73"));         //node5 hk
-        vSeeds.push_back(CDNSSeedData("149.129.59.55", "149.129.59.55"));       //node6 sin 
-        vSeeds.push_back(CDNSSeedData("47.95.225.194", "47.95.225.194"));       //node7 china
+    
+        vSeeds.push_back(CDNSSeedData("47.240.28.73", "47.240.28.73"));         //node1 HongKong
+        vSeeds.push_back(CDNSSeedData("149.129.59.55", "149.129.59.55"));       //node2 Singapore 
+        vSeeds.push_back(CDNSSeedData("47.95.225.194", "47.95.225.194"));       //node3 China BGP
+        vSeeds.push_back(CDNSSeedData("103.56.60.234:51659", "103.56.60.234:51659"));       //node4 China Unicom
+        vSeeds.push_back(CDNSSeedData("222.186.136.65:51659", "222.186.136.65:51659"));       //node5 China Telecom
+        vSeeds.push_back(CDNSSeedData("223.112.227.25:51659", "223.112.227.25:51659"));       //node6 Chinese Mobile
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);                    // Dash addresses start with 'X'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,16);                    // Dash script addresses start with '7'
