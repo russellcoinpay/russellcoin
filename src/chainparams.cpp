@@ -149,12 +149,11 @@ public:
         assert(hashGenesisBlock == uint256("0x4d1872cb6087d31d27a97c9be3ef7a0571faa5b23e5dc0716130023b38328d6c"));
         assert(genesis.hashMerkleRoot == uint256("0xe0028eb9648db56b1ac77cf090b99048a8007e2bb64b68f092c03c7f56a662c7"));
 
-
-	vSeeds.push_back(CDNSSeedData("47.240.28.73", "47.240.28.73")); 	//node1 HongKong
-	vSeeds.push_back(CDNSSeedData(" 47.240.40.6", " 47.240.40.6"));         //node2 HongKong
+	vSeeds.push_back(CDNSSeedData("47.240.40.6", "47.240.40.6"));         //node1 HongKong
+	vSeeds.push_back(CDNSSeedData("47.240.28.73", "47.240.28.73")); 	//node2 HongKong
 	vSeeds.push_back(CDNSSeedData("47.95.225.194", "47.95.225.194"));       //node3 China BGP
-	vSeeds.push_back(CDNSSeedData("221.230.76.81", "221.230.76.81"));       //node4 China Telecom
-	vSeeds.push_back(CDNSSeedData("221.230.76.84", "221.230.76.84"));       //node5 China Telecom
+	vSeeds.push_back(CDNSSeedData("221.230.76.84", "221.230.76.84"));       //node4 China Telecom
+	vSeeds.push_back(CDNSSeedData("221.230.76.81", "221.230.76.81"));       //node5 China Telecom
 	vSeeds.push_back(CDNSSeedData("149.129.59.55", "149.129.59.55"));       //node6 Singapore
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);                    // Dash addresses start with 'X'
