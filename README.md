@@ -1,7 +1,7 @@
 Russellcoin Core staging tree 2.4.3
 ===============================
 
-http://www.russellcoin.com
+https://www.russellcoin.com
 
 Copyright (c) 2009-2015 Bitcoin Core Developers
 
