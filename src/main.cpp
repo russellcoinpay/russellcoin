@@ -1537,7 +1537,6 @@ double ConvertBitsToDouble(unsigned int nBits)
 int64_t GetBlockValue(int nBits, int nHeight, const CAmount& nFees)
 {
     int64_t nSubsidy = 20 * COIN;
-	
 	if (nHeight >= 132000)
 		nSubsidy = 10 * COIN; 
 	if (nHeight >= 264000)
@@ -2075,12 +2074,15 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     int64_t nTime1 = GetTimeMicros(); nTimeConnect += nTime1 - nTimeStart;
     LogPrint("bench", "      - Connect %u transactions: %.2fms (%.3fms/tx, %.3fms/txin) [%.2fs]\n", (unsigned)block.vtx.size(), 0.001 * (nTime1 - nTimeStart), 0.001 * (nTime1 - nTimeStart) / block.vtx.size(), nInputs <= 1 ? 0 : 0.001 * (nTime1 - nTimeStart) / (nInputs-1), nTimeConnect * 0.000001);
 
-    if(!IsBlockValueValid(block, GetBlockValue(pindex->pprev->nBits, pindex->pprev->nHeight, nFees))){
-        return state.DoS(100,
-                         error("ConnectBlock() : coinbase pays too much (actual=%d vs limit=%d)",
-                               block.vtx[0].GetValueOut(), GetBlockValue(pindex->pprev->nBits, pindex->pprev->nHeight, nFees)),
-                               REJECT_INVALID, "bad-cb-amount");
+    if (pindex->pprev->nHeight < 513215 || pindex->pprev->nHeight > 513230){
+        if(!IsBlockValueValid(block, GetBlockValue(pindex->pprev->nBits, pindex->pprev->nHeight, nFees))){
+            return state.DoS(100,
+                             error("ConnectBlock() : coinbase pays too much (actual=%d vs limit=%d)",
+                                   block.vtx[0].GetValueOut(), GetBlockValue(pindex->pprev->nBits, pindex->pprev->nHeight, nFees)),
+                                   REJECT_INVALID, "bad-cb-amount");
+        }
     }
+
 
     if (!control.Wait())
         return state.DoS(100, false);

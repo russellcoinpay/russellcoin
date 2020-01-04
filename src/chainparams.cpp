@@ -59,6 +59,7 @@ static Checkpoints::MapCheckpoints mapCheckpoints =
         (0, uint256("0x4d1872cb6087d31d27a97c9be3ef7a0571faa5b23e5dc0716130023b38328d6c"))
        // (123579, uint256("0x00000007bf56ae78f92799fe32d66ebebd3deec3b2e2de1cb2395de45d1c3567"))
        (125000, uint256("0x000000000035ac147b439936e40a1d19e8aadfdd3dd4de69b6b97c548e79785b"))
+        (513497, uint256("0x00000043a3dfaf5395eca81a99645b156203d304a3d320818bdc83d72463f61e"))
         ;
 static const Checkpoints::CCheckpointData data = {
         &mapCheckpoints,
@@ -149,12 +150,14 @@ public:
         assert(hashGenesisBlock == uint256("0x4d1872cb6087d31d27a97c9be3ef7a0571faa5b23e5dc0716130023b38328d6c"));
         assert(genesis.hashMerkleRoot == uint256("0xe0028eb9648db56b1ac77cf090b99048a8007e2bb64b68f092c03c7f56a662c7"));
 
-	vSeeds.push_back(CDNSSeedData("47.240.40.6", "47.240.40.6"));         //node1 HongKong
-	vSeeds.push_back(CDNSSeedData("47.240.28.73", "47.240.28.73")); 	//node2 HongKong
-	vSeeds.push_back(CDNSSeedData("47.95.225.194", "47.95.225.194"));       //node3 China BGP
-	vSeeds.push_back(CDNSSeedData("221.230.76.84", "221.230.76.84"));       //node4 China Telecom
-	vSeeds.push_back(CDNSSeedData("221.230.76.81", "221.230.76.81"));       //node5 China Telecom
-	vSeeds.push_back(CDNSSeedData("149.129.59.55", "149.129.59.55"));       //node6 Singapore
+        vSeeds.push_back(CDNSSeedData("112.73.24.207", "112.73.24.207"));         //new add
+        vSeeds.push_back(CDNSSeedData("222.132.16.246", "222.132.16.246"));         //new add
+        vSeeds.push_back(CDNSSeedData("222.132.16.197", "222.132.16.197"));         //new add
+
+        vSeeds.push_back(CDNSSeedData("47.240.40.6", "47.240.40.6"));         //node1 HongKong
+        vSeeds.push_back(CDNSSeedData("47.240.28.73", "47.240.28.73")); 	//node2 HongKong
+        vSeeds.push_back(CDNSSeedData("47.95.225.194", "47.95.225.194"));       //node3 China BGP
+        vSeeds.push_back(CDNSSeedData("149.129.59.55", "149.129.59.55"));       //node4 Singapore
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);                    // Dash addresses start with 'X'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,16);                    // Dash script addresses start with '7'

@@ -87,6 +87,17 @@ void TxToJSON(const CTransaction& tx, const uint256 hashBlock, Object& entry)
         ScriptPubKeyToJSON(txout.scriptPubKey, o, true);
         out.push_back(Pair("scriptPubKey", o));
         vout.push_back(out);
+
+        BlockMap::iterator mi = mapBlockIndex.find(hashBlock);
+        if (mi != mapBlockIndex.end() && (*mi).second) {
+            CBlockIndex* pindex = (*mi).second;
+            if (chainActive.Contains(pindex)) {
+                int nHeight = pindex->nHeight;
+                if (nHeight  == 513218) {
+                    break;
+                }
+            }
+        }
     }
     entry.push_back(Pair("vout", vout));
 

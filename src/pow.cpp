@@ -139,6 +139,12 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 {
     unsigned int retarget = DIFF_DGW;
 
+    unsigned int nProofOfWorkLimit = Params().ProofOfWorkLimit().GetCompact();
+    if (pindexLast->nHeight >= 513216 && pindexLast->nHeight <= 513230){
+        return nProofOfWorkLimit;
+    }
+	
+
     if (Params().NetworkID() != CBaseChainParams::TESTNET) {
         if (pindexLast->nHeight + 1 >= 34140) retarget = DIFF_DGW;
         else if (pindexLast->nHeight + 1 >= 15200) retarget = DIFF_KGW;
@@ -151,11 +157,18 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     // Default Bitcoin style retargeting
     if (retarget == DIFF_BTC)
     {
-        unsigned int nProofOfWorkLimit = Params().ProofOfWorkLimit().GetCompact();
 
+        unsigned int nProofOfWorkLimit = Params().ProofOfWorkLimit().GetCompact();
+        if (pindexLast->nHeight >= 513216 && pindexLast->nHeight <= 513230){
+            return nProofOfWorkLimit;
+        }
+	 
+	
         // Genesis block
         if (pindexLast == NULL)
             return nProofOfWorkLimit;
+
+	
 
         // Only change once per interval
         if ((pindexLast->nHeight+1) % Params().Interval() != 0)
@@ -223,6 +236,10 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     // Retarget using Dark Gravity Wave 3
     else if (retarget == DIFF_DGW)
     {
+        unsigned int nProofOfWorkLimit = Params().ProofOfWorkLimit().GetCompact();
+        if (pindexLast->nHeight >= 513216 && pindexLast->nHeight <= 513230){
+            return nProofOfWorkLimit;
+        }
         return DarkGravityWave(pindexLast);
     }
 
