@@ -236,12 +236,12 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 }
 
 
-bool CheckProofOfWork(uint256 hash, unsigned int nBits, int64_t timestamp, uint32_t nonce) 
+bool CheckProofOfWork(uint256 hash, unsigned int nBits, uint32_t nonce, int64_t timestamp) 
 {
     bool fNegative;
     bool fOverflow;
     uint256 bnTarget;
-/*  */
+
     if (Params().SkipProofOfWorkCheck())
        return true;
 
@@ -256,12 +256,19 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, int64_t timestamp, uint3
     //if  (hash == uint256("0x00000024e6e6e429169e1b40dfd7e80aee4a780546159aa83b1f5ca28b85b185"))   {  return true;}
     //if  (hash == uint256("0x000000079b2a1f2d3f513482de8e3219dae90526ed6511c8aaf9a044a97ede75"))   {  return true;}
     
-    
+    //check nonce
+    if (nonce <= 5 && timestamp > 1605937051)
+    {   
+        //LogPrintf("qwq-qwq error nonce int64_t time:%ld nonce:%u hash:%s bnTarget:%s\n" ,timestamp ,nonce ,hash.ToString().c_str(), bnTarget.ToString().c_str());
+        return error("CheckProofOfWork() : nonce error");
+        //return true;
+        }
+
     
     // Check proof of work matches claimed amount
-    if (hash > bnTarget && timestamp > 1605170137 )
+    if (hash > bnTarget && timestamp > 1605937051 )
     {   
-        //LogPrintf("error int64_t time:%ld nonce:%u hash:%s bnTarget:%s\n" ,timestamp ,nonce ,hash.ToString().c_str(), bnTarget.ToString().c_str());
+        //LogPrintf("qwq-qwq error int64_t time:%ld nonce:%u hash:%s bnTarget:%s\n" ,timestamp ,nonce ,hash.ToString().c_str(), bnTarget.ToString().c_str());
         return error("CheckProofOfWork() : hash doesn't match nBits");
         //return true;
         }
@@ -269,7 +276,7 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, int64_t timestamp, uint3
     return true;
 }
 
-bool CheckProofOfWork(uint256 hash, unsigned int nBits, uint32_t timestamp, uint32_t nonce) 
+bool CheckProofOfWork(uint256 hash, unsigned int nBits, uint32_t nonce, uint32_t timestamp) 
 {
     bool fNegative;
     bool fOverflow;
@@ -289,10 +296,17 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, uint32_t timestamp, uint
     //if  (hash == uint256("0x00000024e6e6e429169e1b40dfd7e80aee4a780546159aa83b1f5ca28b85b185"))   {  return true;}
     //if  (hash == uint256("0x000000079b2a1f2d3f513482de8e3219dae90526ed6511c8aaf9a044a97ede75"))   {  return true;}
     
+    //check nonce
+    if (nonce <= 5 && timestamp > 1605937051)
+    {   
+        //LogPrintf("error nonce int64_t time:%ld nonce:%u hash:%s bnTarget:%s\n" ,timestamp ,nonce ,hash.ToString().c_str(), bnTarget.ToString().c_str());
+        return error("CheckProofOfWork() : nonce error");
+        //return true;
+        }
     
-    
+
     // Check proof of work matches claimed amount
-    if (hash > bnTarget && timestamp > 1605170137 )
+    if (hash > bnTarget && timestamp > 1605937051 )
     {   
         //LogPrintf("error uint32_t time:%u nonce:%u hash:%s bnTarget:%s\n" ,timestamp ,nonce ,hash.ToString().c_str(), bnTarget.ToString().c_str());
         return error("CheckProofOfWork() : hash doesn't match nBits");
