@@ -1,4 +1,4 @@
-Russellcoin Core staging tree 2.5.1
+Russellcoin Core staging tree 2.5.2
 ===============================
 
 https://www.russellcoin.com
@@ -7,7 +7,7 @@ Copyright (c) 2009-2015 Bitcoin Core Developers
 
 Copyright (c) 2014-2015 Dash Core Developers
 
-Copyright (c) 2015-2019 Russellcoin Core Developers
+Copyright (c) 2015-2020 Russellcoin Core Developers
 
 
 What is Russellcoin?
