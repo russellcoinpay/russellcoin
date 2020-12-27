@@ -2968,13 +2968,18 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
         BOOST_FOREACH(const CTransaction& tx, block.vtx){
             if (!CheckTransaction(tx, state))
                 return error("CheckBlock() : CheckTransaction failed");
-            int64_t time = (int64_t)block.nTime;
-            if(time > (changeAlgoTime + 60*60*25)){
-                if(tx.nVersion < 9 || tx.nVersion > 9){
-                    return error("CheckBlock(): CheckTransaction of nVersion failed with %d",tx.nVersion);
-                }
-            }
-        }
+
+        // Check transactions
+//        BOOST_FOREACH(const CTransaction& tx, block.vtx){
+//            if (!CheckTransaction(tx, state))
+//                return error("CheckBlock() : CheckTransaction failed");
+//            int64_t time = (int64_t)block.nTime;
+//            if(time > (changeAlgoTime + 60*60*25)){
+//                if(tx.nVersion < 9 || tx.nVersion > 9){
+//                    return error("CheckBlock(): CheckTransaction of nVersion failed with %d",tx.nVersion);
+//                }
+//            }
+//        }
 
         unsigned int nSigOps = 0;
         BOOST_FOREACH(const CTransaction& tx, block.vtx)
