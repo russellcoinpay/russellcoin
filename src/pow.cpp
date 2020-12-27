@@ -265,9 +265,9 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, int64_t timestamp, uint3
     // Check proof of work matches claimed amount
     if (hash > bnTarget && timestamp > 1605170137 )
     {   
-        LogPrintf("error int64_t time:%ld nonce:%u hash:%s bnTarget:%s\n" ,timestamp ,nonce ,hash.ToString().c_str(), bnTarget.ToString().c_str());
-        //return error("CheckProofOfWork() : hash doesn't match nBits");
-        return true;
+        //LogPrintf("error int64_t time:%ld nonce:%u hash:%s bnTarget:%s\n" ,timestamp ,nonce ,hash.ToString().c_str(), bnTarget.ToString().c_str());
+        return error("CheckProofOfWork() : hash doesn't match nBits");
+        //return true;
         }
 
     return true;
@@ -298,9 +298,9 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, uint32_t timestamp, uint
     // Check proof of work matches claimed amount
     if (hash > bnTarget && timestamp > 1605170137 )
     {   
-        LogPrintf("error uint32_t time:%u nonce:%u hash:%s bnTarget:%s\n" ,timestamp ,nonce ,hash.ToString().c_str(), bnTarget.ToString().c_str());
-        //return error("CheckProofOfWork() : hash doesn't match nBits");
-        return true;
+        //LogPrintf("error uint32_t time:%u nonce:%u hash:%s bnTarget:%s\n" ,timestamp ,nonce ,hash.ToString().c_str(), bnTarget.ToString().c_str());
+        return error("CheckProofOfWork() : hash doesn't match nBits");
+        //return true;
         }
 
     return true;
