@@ -239,12 +239,13 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     return DarkGravityWave(pindexLast);
 }
 
-bool CheckProofOfWork(uint256 hash, unsigned int nBits)
+
+bool CheckProofOfWork(uint256 hash, unsigned int nBits, int64_t timestamp, uint32_t nonce) 
 {
     bool fNegative;
     bool fOverflow;
     uint256 bnTarget;
-
+/*  */
     if (Params().SkipProofOfWorkCheck())
        return true;
 
@@ -254,9 +255,53 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits)
     if (fNegative || bnTarget == 0 || fOverflow || bnTarget > Params().ProofOfWorkLimit())
         return error("CheckProofOfWork() : nBits below minimum work");
 
+    //skip hash
+    //if  (hash == uint256("0x4d1872cb6087d31d27a97c9be3ef7a0571faa5b23e5dc0716130023b38328d6c"))   {  return true;}
+    //if  (hash == uint256("0x00000024e6e6e429169e1b40dfd7e80aee4a780546159aa83b1f5ca28b85b185"))   {  return true;}
+    //if  (hash == uint256("0x000000079b2a1f2d3f513482de8e3219dae90526ed6511c8aaf9a044a97ede75"))   {  return true;}
+    
+    
+    
     // Check proof of work matches claimed amount
-    //if (hash > bnTarget)
-    //    return error("CheckProofOfWork() : hash doesn't match nBits");
+    if (hash > bnTarget && timestamp > 1605170137 )
+    {   
+        LogPrintf("error int64_t time:%ld nonce:%u hash:%s bnTarget:%s\n" ,timestamp ,nonce ,hash.ToString().c_str(), bnTarget.ToString().c_str());
+        //return error("CheckProofOfWork() : hash doesn't match nBits");
+        return true;
+        }
+
+    return true;
+}
+
+bool CheckProofOfWork(uint256 hash, unsigned int nBits, uint32_t timestamp, uint32_t nonce) 
+{
+    bool fNegative;
+    bool fOverflow;
+    uint256 bnTarget;
+/*  */
+    if (Params().SkipProofOfWorkCheck())
+       return true;
+
+    bnTarget.SetCompact(nBits, &fNegative, &fOverflow);
+
+    // Check range
+    if (fNegative || bnTarget == 0 || fOverflow || bnTarget > Params().ProofOfWorkLimit())
+        return error("CheckProofOfWork() : nBits below minimum work");
+
+    //skip hash
+    //if  (hash == uint256("0x4d1872cb6087d31d27a97c9be3ef7a0571faa5b23e5dc0716130023b38328d6c"))   {  return true;}
+    //if  (hash == uint256("0x00000024e6e6e429169e1b40dfd7e80aee4a780546159aa83b1f5ca28b85b185"))   {  return true;}
+    //if  (hash == uint256("0x000000079b2a1f2d3f513482de8e3219dae90526ed6511c8aaf9a044a97ede75"))   {  return true;}
+    
+    
+    
+    // Check proof of work matches claimed amount
+    if (hash > bnTarget && timestamp > 1605170137 )
+    {   
+        LogPrintf("error uint32_t time:%u nonce:%u hash:%s bnTarget:%s\n" ,timestamp ,nonce ,hash.ToString().c_str(), bnTarget.ToString().c_str());
+        //return error("CheckProofOfWork() : hash doesn't match nBits");
+        return true;
+        }
 
     return true;
 }

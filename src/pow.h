@@ -24,7 +24,8 @@ enum DiffMode {
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock);
 
 /** Check whether a block hash satisfies the proof-of-work requirement specified by nBits */
-bool CheckProofOfWork(uint256 hash, unsigned int nBits);
+bool CheckProofOfWork(uint256 hash, unsigned int nBits, int64_t timestamp, uint32_t nonce); 
+bool CheckProofOfWork(uint256 hash, unsigned int nBits, uint32_t timestamp, uint32_t nonce);
 uint256 GetBlockProof(const CBlockIndex& block);
 
 #endif // BITCOIN_POW_H
