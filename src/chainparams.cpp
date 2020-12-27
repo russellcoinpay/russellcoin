@@ -60,14 +60,17 @@ static Checkpoints::MapCheckpoints mapCheckpoints =
         (123579, uint256("0x00000007bf56ae78f92799fe32d66ebebd3deec3b2e2de1cb2395de45d1c3567"))
         (125000, uint256("0x000000000035ac147b439936e40a1d19e8aadfdd3dd4de69b6b97c548e79785b"))
         (513497, uint256("0x00000043a3dfaf5395eca81a99645b156203d304a3d320818bdc83d72463f61e"))
-       	(584576, uint256("0x00000007336f3df0219ae13c1e5b1cb544897f375b20548181c83f191daeb69f"))
+        (584576, uint256("0x00000007336f3df0219ae13c1e5b1cb544897f375b20548181c83f191daeb69f"))
+        (753604, uint256("0x00000058dbca950343c61e6142b21d51a47772728c3b0862bcfedb9381365fcd"))
+        
 
         ;
 static const Checkpoints::CCheckpointData data = {
         &mapCheckpoints,
-    0,
-    0,
-    0      // * estimated number of transactions per day after checkpoint
+    1606101731,      // * UNIX timestamp of last checkpoint block
+    1053765,      // * total number of transactions between genesis and last checkpoint
+            //   (the tx=... number in the SetBestChain debug.log lines)
+    2600       // * estimated number of transactions per day after checkpoint
     };
 
 static Checkpoints::MapCheckpoints mapCheckpointsTestnet =
@@ -145,10 +148,10 @@ public:
 
         hashGenesisBlock = genesis.GetHash();
 
-        printf("genesis.hashGenesisBlock == %s\n", hashGenesisBlock.ToString().c_str());
-        printf("genesis.hashMerkleRoot == %s\n", genesis.hashMerkleRoot.ToString().c_str());
-        printf("genesis.nBits == %d\n", genesis.nBits);
-        printf("genesis.nNonce == %d\n", genesis.nNonce);
+        //printf("genesis.hashGenesisBlock == %s\n", hashGenesisBlock.ToString().c_str());
+        //printf("genesis.hashMerkleRoot == %s\n", genesis.hashMerkleRoot.ToString().c_str());
+        //printf("genesis.nBits == %d\n", genesis.nBits);
+        //printf("genesis.nNonce == %d\n", genesis.nNonce);
 
         assert(hashGenesisBlock == uint256("0x4d1872cb6087d31d27a97c9be3ef7a0571faa5b23e5dc0716130023b38328d6c"));
         assert(genesis.hashMerkleRoot == uint256("0xe0028eb9648db56b1ac77cf090b99048a8007e2bb64b68f092c03c7f56a662c7"));
@@ -179,7 +182,7 @@ public:
         fSkipProofOfWorkCheck = false;
         fTestnetToBeDeprecatedFieldRPC = false;
 
-        changeAlgoTime = 1578400861;
+       // changeAlgoTime = 1578400861;
 
         nPoolMaxTransactions = 3;
         strSporkKey = "04549ac134f694c0243f503e8c8a9a986f5de6610049c40b07816809b0d1d06a21b07be27b9bb555931773f62ba6cf35a25fd52f694d4e1106ccd237a7bb899fdd";
@@ -221,10 +224,10 @@ public:
         genesis.nNonce = 3861367235;
         hashGenesisBlock = genesis.GetHash();
 
-        printf("test.hashGenesisBlock == %s\n", hashGenesisBlock.ToString().c_str());
-        printf("test.hashMerkleRoot == %s\n", genesis.hashMerkleRoot.ToString().c_str());
-        printf("test.nBits == %d\n", genesis.nBits);
-        printf("test.nNonce == %d\n", genesis.nNonce);
+        //printf("test.hashGenesisBlock == %s\n", hashGenesisBlock.ToString().c_str());
+        //printf("test.hashMerkleRoot == %s\n", genesis.hashMerkleRoot.ToString().c_str());
+        //printf("test.nBits == %d\n", genesis.nBits);
+        //printf("test.nNonce == %d\n", genesis.nNonce);
 
         assert(hashGenesisBlock == uint256("0x00000bafbc94add76cb75e2ec92894837288a481e5c005f6563d91623bf8bc2c"));
 
@@ -254,7 +257,7 @@ public:
         fMineBlocksOnDemand = false;
         fTestnetToBeDeprecatedFieldRPC = true;
 
-        changeAlgoTime = 1578398581;
+       // changeAlgoTime = 1578398581;
 
         nPoolMaxTransactions = 2;
         strSporkKey = "046f78dcf911fbd61910136f7f0f8d90578f68d0b3ac973b5040fb7afb501b5939f39b108b0569dca71488f5bbf498d92e4d1194f6f941307ffd95f75e76869f0e";
@@ -295,10 +298,10 @@ public:
         hashGenesisBlock = genesis.GetHash();
         nDefaultPort = 19994;
 
-        printf("regtest.hashGenesisBlock == %s\n", hashGenesisBlock.ToString().c_str());
-        printf("regtest.hashMerkleRoot == %s\n", genesis.hashMerkleRoot.ToString().c_str());
-        printf("regtest.nBits == %d\n", genesis.nBits);
-        printf("regtest.nNonce == %d\n", genesis.nNonce);
+        //printf("regtest.hashGenesisBlock == %s\n", hashGenesisBlock.ToString().c_str());
+        //printf("regtest.hashMerkleRoot == %s\n", genesis.hashMerkleRoot.ToString().c_str());
+        //printf("regtest.nBits == %d\n", genesis.nBits);
+        //printf("regtest.nNonce == %d\n", genesis.nNonce);
 
         assert(hashGenesisBlock == uint256("0x000008ca1832a4baf228eb1553c03d3a2c8e02399550dd6ea8d65cec3ef23d2e"));
 
@@ -313,7 +316,7 @@ public:
         fMineBlocksOnDemand = true;
         fTestnetToBeDeprecatedFieldRPC = false;
 
-        changeAlgoTime = 1578398581;
+        //changeAlgoTime = 1578398581;
     }
     const Checkpoints::CCheckpointData& Checkpoints() const 
     {
@@ -340,7 +343,7 @@ public:
         fAllowMinDifficultyBlocks = false;
         fMineBlocksOnDemand = true;
 
-        changeAlgoTime = 1578398581;
+        //changeAlgoTime = 1578398581;
     }
 
     const Checkpoints::CCheckpointData& Checkpoints() const 

@@ -111,6 +111,7 @@ private:
     QAction *openPeersAction;
     QAction *openRepairAction;
     QAction *openConfEditorAction;
+    QAction *openMNConfEditorAction;
     QAction *showBackupsAction;
     QAction *openAction;
     QAction *showHelpMessageAction;
@@ -218,6 +219,10 @@ private slots:
     void optionsClicked();
     /** Show about dialog */
     void aboutClicked();
+
+
+    /** Open external (default) editor with masternode.conf */
+    void showMNConfEditor();
     /** Show help message dialog */
     void showHelpMessageClicked();
 #ifndef Q_OS_MAC

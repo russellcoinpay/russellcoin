@@ -443,6 +443,14 @@
         <translation>打开配置文件</translation>
     </message>
     <message>
+        <source>Open &amp;Masternode Configuration File</source>
+        <translation>打开 &amp;主节点配置文件</translation>
+    </message>
+     <message>
+        <source>Open Masternode configuration file</source>
+        <translation>打开主节点配置文件</translation>
+    </message>
+    <message>
         <source>Show Automatic &amp;Backups</source>
         <translation>打开 &amp;数据目录</translation>
     </message>

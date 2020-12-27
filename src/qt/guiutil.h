@@ -108,6 +108,9 @@ namespace GUIUtil
 	
     // Open RussellCoin.conf
     void openConfigfile();	
+
+    // Open masternode.conf
+    void openMasternodefile();	
     
     // Browse backup folder
     void showBackups();

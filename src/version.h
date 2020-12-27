@@ -10,31 +10,31 @@
  * network protocol versioning
  */
 
-static const int PROTOCOL_VERSION = 70109;
+static const int PROTOCOL_VERSION = 70112;
 
 //! initial proto version, to be increased after version/verack negotiation
 static const int INIT_PROTO_VERSION = 209;
 
 //! In this version, 'getheaders' was introduced.
-static const int GETHEADERS_VERSION = 70109;
+static const int GETHEADERS_VERSION = 70112;
 
 //! disconnect from peers older than this proto version
-static const int MIN_PEER_PROTO_VERSION = 70109;
+static const int MIN_PEER_PROTO_VERSION = 70112;
 
 //! minimum peer version accepted by DarksendPool
-static const int MIN_POOL_PEER_PROTO_VERSION = 70109;
+static const int MIN_POOL_PEER_PROTO_VERSION = 70112;
 
 //! minimum peer version for masternode budgets
-static const int MIN_BUDGET_PEER_PROTO_VERSION = 70109;
+static const int MIN_BUDGET_PEER_PROTO_VERSION = 70112;
 
 //! minimum peer version for masternode winner broadcasts
-static const int MIN_MNW_PEER_PROTO_VERSION = 70109;
+static const int MIN_MNW_PEER_PROTO_VERSION = 70112;
 
 //! minimum peer version that can receive masternode payments
 // V1 - Last protocol version before update
 // V2 - Newest protocol version
-static const int MIN_MASTERNODE_PAYMENT_PROTO_VERSION_1 = 70109;
-static const int MIN_MASTERNODE_PAYMENT_PROTO_VERSION_2 = 70109;
+static const int MIN_MASTERNODE_PAYMENT_PROTO_VERSION_1 = 70112;
+static const int MIN_MASTERNODE_PAYMENT_PROTO_VERSION_2 = 70112;
 
 //! nTime field added to CAddress, starting with this version;
 //! if possible, avoid requesting addresses nodes older than this

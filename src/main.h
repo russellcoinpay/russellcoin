@@ -201,8 +201,8 @@ void ThreadScriptCheck();
 
 // ***TODO*** probably not the right place for these 2
 /** Check whether a block hash satisfies the proof-of-work requirement specified by nBits */
-bool CheckProofOfWork(uint256 hash, unsigned int nBits, int64_t timestamp,uint32_t nonce);  
-bool CheckProofOfWork(uint256 hash, unsigned int nBits, uint32_t timestamp, uint32_t nonce);
+bool CheckProofOfWork(uint256 hash, unsigned int nBits,uint32_t nonce, int64_t timestamp);  
+bool CheckProofOfWork(uint256 hash, unsigned int nBits,uint32_t nonce, uint32_t timestamp);
 /** Check whether we are doing an initial block download (synchronizing from disk or network) */
 bool IsInitialBlockDownload();
 /** Format a string that describes several potential problems detected by the core */
