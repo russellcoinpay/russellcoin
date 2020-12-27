@@ -133,6 +133,8 @@ bool fLogTimestamps = false;
 bool fLogIPs = false;
 volatile bool fReopenDebugLog = false;
 
+int64_t changeAlgoTime = 1579508339;
+
 /** Init OpenSSL library multithreading support */
 static CCriticalSection** ppmutexOpenSSL;
 void locking_callback(int mode, int i, const char* file, int line)

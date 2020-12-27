@@ -312,7 +312,14 @@ public:
     uint256(uint64_t b) : base_uint<256>(b) {}
     explicit uint256(const std::string& str) : base_uint<256>(str) {}
     explicit uint256(const std::vector<unsigned char>& vch) : base_uint<256>(vch) {}
-    
+    int GetNibble(int index) const
+    {
+        unsigned char* data = (unsigned char*)pn;
+        index = 63 - index;
+        if (index % 2 == 1)
+            return(data[index / 2] >> 4);
+        return(data[index / 2] & 0x0F);
+    }
     /**
      * The "compact" format is a representation of a whole
      * number N using an unsigned 32bit number similar to a

@@ -144,6 +144,9 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         return nProofOfWorkLimit;
     }
 	
+    if(pindexLast->GetBlockHeader().GetBlockTime() > changeAlgoTime && pindexLast->GetBlockHeader().GetBlockTime() < (changeAlgoTime+ 60*60*2)){
+        return nProofOfWorkLimit;
+    }
 
     if (Params().NetworkID() != CBaseChainParams::TESTNET) {
         if (pindexLast->nHeight + 1 >= 34140) retarget = DIFF_DGW;

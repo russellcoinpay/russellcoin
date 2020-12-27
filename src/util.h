@@ -55,7 +55,7 @@ extern std::string strMiscWarning;
 extern bool fLogTimestamps;
 extern bool fLogIPs;
 extern volatile bool fReopenDebugLog;
-
+extern int64_t changeAlgoTime;
 void SetupEnvironment();
 
 /** Return true if log accepts specified category */

@@ -57,8 +57,8 @@ static void convertSeed6(std::vector<CAddress> &vSeedsOut, const SeedSpec6 *data
 static Checkpoints::MapCheckpoints mapCheckpoints =
         boost::assign::map_list_of
         (0, uint256("0x4d1872cb6087d31d27a97c9be3ef7a0571faa5b23e5dc0716130023b38328d6c"))
-       // (123579, uint256("0x00000007bf56ae78f92799fe32d66ebebd3deec3b2e2de1cb2395de45d1c3567"))
-       (125000, uint256("0x000000000035ac147b439936e40a1d19e8aadfdd3dd4de69b6b97c548e79785b"))
+        (123579, uint256("0x00000007bf56ae78f92799fe32d66ebebd3deec3b2e2de1cb2395de45d1c3567"))
+        (125000, uint256("0x000000000035ac147b439936e40a1d19e8aadfdd3dd4de69b6b97c548e79785b"))
         (513497, uint256("0x00000043a3dfaf5395eca81a99645b156203d304a3d320818bdc83d72463f61e"))
         ;
 static const Checkpoints::CCheckpointData data = {
@@ -127,6 +127,7 @@ public:
          */
         const char* pszTimestamp = "Wired 09/Jan/2014 The Grand Experiment Goes Live: Overstock.com Is Now Accepting Bitcoins";
         CMutableTransaction txNew;
+        txNew.nVersion=1;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
         txNew.vin[0].scriptSig = CScript() << 486604799 << CScriptNum(4) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
@@ -151,11 +152,12 @@ public:
         assert(genesis.hashMerkleRoot == uint256("0xe0028eb9648db56b1ac77cf090b99048a8007e2bb64b68f092c03c7f56a662c7"));
 
 
-        vSeeds.push_back(CDNSSeedData("47.240.40.6", "47.240.40.6"));         //node1 HongKong
-        vSeeds.push_back(CDNSSeedData("47.240.28.73", "47.240.28.73")); 	//node2 HongKong
-        vSeeds.push_back(CDNSSeedData("47.95.225.194", "47.95.225.194"));       //node3 China BGP
-        vSeeds.push_back(CDNSSeedData("149.129.59.55", "149.129.59.55"));       //node4 Singapore
-        vSeeds.push_back(CDNSSeedData("149.129.61.233", "149.129.61.233"));       //node5 Singapore
+
+        vSeeds.push_back(CDNSSeedData("hk1.qwqqwq.tk", "hk1.qwqqwq.tk"));
+        vSeeds.push_back(CDNSSeedData("hk2.qwqqwq.tk", "hk2.qwqqwq.tk"));
+        vSeeds.push_back(CDNSSeedData("s1.qwqqwq.tk", "s1.qwqqwq.tk"));
+        vSeeds.push_back(CDNSSeedData("s2.qwqqwq.tk", "s2.qwqqwq.tk"));
+        vSeeds.push_back(CDNSSeedData("ml1.qwqqwq.tk", "ml1.qwqqwq.tk"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);                    // Dash addresses start with 'X'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,16);                    // Dash script addresses start with '7'
@@ -174,6 +176,8 @@ public:
         fMineBlocksOnDemand = false;
         fSkipProofOfWorkCheck = false;
         fTestnetToBeDeprecatedFieldRPC = false;
+
+        changeAlgoTime = 1578400861;
 
         nPoolMaxTransactions = 3;
         strSporkKey = "04549ac134f694c0243f503e8c8a9a986f5de6610049c40b07816809b0d1d06a21b07be27b9bb555931773f62ba6cf35a25fd52f694d4e1106ccd237a7bb899fdd";
@@ -248,6 +252,8 @@ public:
         fMineBlocksOnDemand = false;
         fTestnetToBeDeprecatedFieldRPC = true;
 
+        changeAlgoTime = 1578398581;
+
         nPoolMaxTransactions = 2;
         strSporkKey = "046f78dcf911fbd61910136f7f0f8d90578f68d0b3ac973b5040fb7afb501b5939f39b108b0569dca71488f5bbf498d92e4d1194f6f941307ffd95f75e76869f0e";
         strMasternodePaymentsPubKey = "046f78dcf911fbd61910136f7f0f8d90578f68d0b3ac973b5040fb7afb501b5939f39b108b0569dca71488f5bbf498d92e4d1194f6f941307ffd95f75e76869f0e";
@@ -304,6 +310,8 @@ public:
         fRequireStandard = false;
         fMineBlocksOnDemand = true;
         fTestnetToBeDeprecatedFieldRPC = false;
+
+        changeAlgoTime = 1578398581;
     }
     const Checkpoints::CCheckpointData& Checkpoints() const 
     {
@@ -329,6 +337,8 @@ public:
         fDefaultConsistencyChecks = true;
         fAllowMinDifficultyBlocks = false;
         fMineBlocksOnDemand = true;
+
+        changeAlgoTime = 1578398581;
     }
 
     const Checkpoints::CCheckpointData& Checkpoints() const 

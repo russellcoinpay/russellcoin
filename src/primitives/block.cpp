@@ -4,13 +4,17 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "primitives/block.h"
-
+#include "util.h"
 #include "hash.h"
 #include "tinyformat.h"
 #include "utilstrencodings.h"
 
 uint256 CBlockHeader::GetHash() const
 {
+    int64_t time = this->GetBlockTime();
+    if(time > changeAlgoTime){
+        return HashX20R(BEGIN(nVersion), END(nNonce), hashPrevBlock);
+    }
     return HashX11(BEGIN(nVersion), END(nNonce));
 }
 
@@ -110,14 +114,19 @@ uint256 CBlock::CheckMerkleBranch(uint256 hash, const std::vector<uint256>& vMer
 
 std::string CBlock::ToString() const
 {
+    std::string algo = "hashX11";
+    int64_t time = this->GetBlockTime();
+    if(time > changeAlgoTime){
+        algo = "HashX20R";
+    }
     std::stringstream s;
-    s << strprintf("CBlock(hash=%s, ver=%d, hashPrevBlock=%s, hashMerkleRoot=%s, nTime=%u, nBits=%08x, nNonce=%u, vtx=%u)\n",
+    s << strprintf("CBlock(hash=%s, ver=%d, hashPrevBlock=%s, hashMerkleRoot=%s, nTime=%u, nBits=%08x, nNonce=%u, vtx=%u,algo=%s)\n",
         GetHash().ToString(),
         nVersion,
         hashPrevBlock.ToString(),
         hashMerkleRoot.ToString(),
         nTime, nBits, nNonce,
-        vtx.size());
+        vtx.size(),algo);
     for (unsigned int i = 0; i < vtx.size(); i++)
     {
         s << "  " << vtx[i].ToString() << "\n";

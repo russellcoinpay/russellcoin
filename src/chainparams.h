@@ -86,6 +86,7 @@ public:
     std::string MasternodePaymentPubKey() const { return strMasternodePaymentsPubKey; }
     int64_t StartMasternodePayments() const { return nStartMasternodePayments; }
     CBaseChainParams::Network NetworkID() const { return networkID; }
+    int64_t GetChangeAlgoTime() const {return changeAlgoTime;}
 protected:
     CChainParams() {}
 
@@ -121,6 +122,7 @@ protected:
     std::string strMasternodePaymentsPubKey;
     std::string strDarksendPoolDummyAddress;
     int64_t nStartMasternodePayments;
+    int64_t changeAlgoTime;
 };
 
 /** 

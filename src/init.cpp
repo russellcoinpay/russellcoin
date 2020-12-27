@@ -644,25 +644,25 @@ bool AppInit2(boost::thread_group& threadGroup)
     fLogTimestamps = GetBoolArg("-logtimestamps", true);
     fLogIPs = GetBoolArg("-logips", false);
 
-    if (mapArgs.count("-bind") || mapArgs.count("-whitebind")) {
+    //if (mapArgs.count("-bind") || mapArgs.count("-whitebind")) {
         // when specifying an explicit binding address, you want to listen on it
         // even when -connect or -proxy is specified
-        if (SoftSetBoolArg("-listen", true))
-            LogPrintf("AppInit2 : parameter interaction: -bind or -whitebind set -> setting -listen=1\n");
-    }
+    //    if (SoftSetBoolArg("-listen", true))
+    //        LogPrintf("AppInit2 : parameter interaction: -bind or -whitebind set -> setting -listen=1\n");
+    //}
 
     if (mapArgs.count("-connect") && mapMultiArgs["-connect"].size() > 0) {
         // when only connecting to trusted nodes, do not seed via DNS, or listen by default
         if (SoftSetBoolArg("-dnsseed", false))
             LogPrintf("AppInit2 : parameter interaction: -connect set -> setting -dnsseed=0\n");
-        if (SoftSetBoolArg("-listen", false))
-            LogPrintf("AppInit2 : parameter interaction: -connect set -> setting -listen=0\n");
+       // if (SoftSetBoolArg("-listen", false))
+        //    LogPrintf("AppInit2 : parameter interaction: -connect set -> setting -listen=0\n");
     }
 
     if (mapArgs.count("-proxy")) {
         // to protect privacy, do not listen by default if a default proxy server is specified
-        if (SoftSetBoolArg("-listen", false))
-            LogPrintf("%s: parameter interaction: -proxy set -> setting -listen=0\n", __func__);
+        //if (SoftSetBoolArg("-listen", false))
+         //   LogPrintf("%s: parameter interaction: -proxy set -> setting -listen=0\n", __func__);
         // to protect privacy, do not use UPNP when a proxy is set. The user may still specify -listen=1
         // to listen locally, so don't rely on this happening through -listen below.
         if (SoftSetBoolArg("-upnp", false))
@@ -672,7 +672,7 @@ bool AppInit2(boost::thread_group& threadGroup)
             LogPrintf("AppInit2 : parameter interaction: -proxy set -> setting -discover=0\n");
     }
 
-    if (!GetBoolArg("-listen", true)) {
+    if (true) {
         // do not map ports or try to retrieve public IP when not listening (pointless)
         if (SoftSetBoolArg("-upnp", false))
             LogPrintf("AppInit2 : parameter interaction: -listen=0 -> setting -upnp=0\n");
@@ -704,7 +704,7 @@ bool AppInit2(boost::thread_group& threadGroup)
     }
 
     // Make sure enough file descriptors are available
-    int nBind = std::max((int)mapArgs.count("-bind") + (int)mapArgs.count("-whitebind"), 1);
+    //int nBind = std::max((int)mapArgs.count("-bind") + (int)mapArgs.count("-whitebind"), 1);
     nMaxConnections = GetArg("-maxconnections", 125);
     nMaxConnections = std::max(std::min(nMaxConnections, (int)(FD_SETSIZE - nBind - MIN_CORE_FILEDESCRIPTORS)), 0);
     int nFD = RaiseFileDescriptorLimit(nMaxConnections + MIN_CORE_FILEDESCRIPTORS);
@@ -1068,27 +1068,28 @@ bool AppInit2(boost::thread_group& threadGroup)
     }
 
     // see Step 2: parameter interactions for more information about these
-    fListen = GetBoolArg("-listen", DEFAULT_LISTEN);
+    //fListen = GetBoolArg("-listen", DEFAULT_LISTEN);
+    fListen=true;
     fDiscover = GetBoolArg("-discover", true);
     fNameLookup = GetBoolArg("-dns", true);
 
     bool fBound = false;
     if (fListen) {
-        if (mapArgs.count("-bind") || mapArgs.count("-whitebind")) {
-            BOOST_FOREACH(std::string strBind, mapMultiArgs["-bind"]) {
-                CService addrBind;
-                if (!Lookup(strBind.c_str(), addrBind, GetListenPort(), false))
-                    return InitError(strprintf(_("Cannot resolve -bind address: '%s'"), strBind));
-                fBound |= Bind(addrBind, (BF_EXPLICIT | BF_REPORT_ERROR));
-            }
-            BOOST_FOREACH(std::string strBind, mapMultiArgs["-whitebind"]) {
-                CService addrBind;
-                if (!Lookup(strBind.c_str(), addrBind, 0, false))
-                    return InitError(strprintf(_("Cannot resolve -whitebind address: '%s'"), strBind));
-                if (addrBind.GetPort() == 0)
-                    return InitError(strprintf(_("Need to specify a port with -whitebind: '%s'"), strBind));
-                fBound |= Bind(addrBind, (BF_EXPLICIT | BF_REPORT_ERROR | BF_WHITELIST));
-            }
+        //if (mapArgs.count("-bind") || mapArgs.count("-whitebind")) {
+           // BOOST_FOREACH(std::string strBind, mapMultiArgs["-bind"]) {
+            //    CService addrBind;
+            //    if (!Lookup(strBind.c_str(), addrBind, GetListenPort(), false))
+             //       return InitError(strprintf(_("Cannot resolve -bind address: '%s'"), strBind));
+             //   fBound |= Bind(addrBind, (BF_EXPLICIT | BF_REPORT_ERROR));
+            //}
+            //BOOST_FOREACH(std::string strBind, mapMultiArgs["-whitebind"]) {
+              //  CService addrBind;
+               // if (!Lookup(strBind.c_str(), addrBind, 0, false))
+                //    return InitError(strprintf(_("Cannot resolve -whitebind address: '%s'"), strBind));
+               // if (addrBind.GetPort() == 0)
+              //      return InitError(strprintf(_("Need to specify a port with -whitebind: '%s'"), strBind));
+              //  fBound |= Bind(addrBind, (BF_EXPLICIT | BF_REPORT_ERROR | BF_WHITELIST));
+           // }
         }
         else {
             struct in_addr inaddr_any;

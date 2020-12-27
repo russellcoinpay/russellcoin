@@ -115,8 +115,8 @@ void OptionsModel::Init()
 
     if (!settings.contains("fListen"))
         settings.setValue("fListen", DEFAULT_LISTEN);
-    if (!SoftSetBoolArg("-listen", settings.value("fListen").toBool()))
-        addOverriddenOption("-listen");
+    //if (!SoftSetBoolArg("-listen", settings.value("fListen").toBool()))
+    //    addOverriddenOption("-listen");
 
     if (!settings.contains("fUseProxy"))
         settings.setValue("fUseProxy", false);
@@ -223,8 +223,8 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
             return QVariant(nDarksendRounds);
         case AnonymizeDarkcoinAmount:
             return QVariant(nAnonymizeDarkcoinAmount);
-        case Listen:
-            return settings.value("fListen");
+        //case Listen:
+        //    return settings.value("fListen");
         default:
             return QVariant();
         }
@@ -351,12 +351,12 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
                 setRestartRequired(true);
             }
             break;
-        case Listen:
-            if (settings.value("fListen") != value) {
-                settings.setValue("fListen", value);
-                setRestartRequired(true);
-            }
-            break;
+        //case Listen:
+        //    if (settings.value("fListen") != value) {
+        //        settings.setValue("fListen", value);
+         //       setRestartRequired(true);
+         //   }
+         //   break;
         default:
             break;
         }
