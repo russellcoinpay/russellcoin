@@ -13,7 +13,19 @@
  * for both dashd and dash-qt, to make it harder for attackers to
  * target servers or GUI users specifically.
  */
-const std::string CLIENT_NAME("Russell Core Win64");
+#ifdef WIN64
+const std::string CLIENT_NAME("Russell Win64");
+#else
+#ifdef WIN32
+const std::string CLIENT_NAME("Russell Win32");
+#else
+#ifdef MAC_OSX
+const std::string CLIENT_NAME("Russell Mac");
+#else
+const std::string CLIENT_NAME("Russell Linux");
+#endif
+#endif
+#endif
 
 /**
  * Client version number
