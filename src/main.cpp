@@ -1543,6 +1543,12 @@ int64_t GetBlockValue(int nBits, int nHeight, const CAmount& nFees)
 		nSubsidy = 5 * COIN; 
 	if (nHeight >= 396000)
 		nSubsidy = 2.5 * COIN; 
+    if (nHeight >= 792000)
+		nSubsidy = 1.25 * COIN; 
+    if (nHeight >= 1320000)
+		nSubsidy = 0.625 * COIN; 
+    if (nHeight >= 2640000)
+		nSubsidy = 0.3125 * COIN; 
 	
     return nSubsidy + nFees;
 }
