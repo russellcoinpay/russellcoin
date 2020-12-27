@@ -8,7 +8,7 @@
 
 #include "random.h"
 #include "util.h"
-#include "utilstrencodings.h"
+#include "utilstrencodings.h" 
 
 #include <assert.h>
 
@@ -60,6 +60,8 @@ static Checkpoints::MapCheckpoints mapCheckpoints =
         (123579, uint256("0x00000007bf56ae78f92799fe32d66ebebd3deec3b2e2de1cb2395de45d1c3567"))
         (125000, uint256("0x000000000035ac147b439936e40a1d19e8aadfdd3dd4de69b6b97c548e79785b"))
         (513497, uint256("0x00000043a3dfaf5395eca81a99645b156203d304a3d320818bdc83d72463f61e"))
+       	(584576, uint256("0x00000007336f3df0219ae13c1e5b1cb544897f375b20548181c83f191daeb69f"))
+
         ;
 static const Checkpoints::CCheckpointData data = {
         &mapCheckpoints,

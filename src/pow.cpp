@@ -140,13 +140,9 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     unsigned int retarget = DIFF_DGW;
 
     unsigned int nProofOfWorkLimit = Params().ProofOfWorkLimit().GetCompact();
-    if (pindexLast->nHeight >= 513216 && pindexLast->nHeight <= 513230){
-        return nProofOfWorkLimit;
-    }
-	
-    if(pindexLast->GetBlockHeader().GetBlockTime() > changeAlgoTime && pindexLast->GetBlockHeader().GetBlockTime() < (changeAlgoTime+ 60*60*2)){
-        return nProofOfWorkLimit;
-    }
+    if (pindexLast->nHeight >= 513216 && pindexLast->nHeight <= 513230){return nProofOfWorkLimit;}
+    if (pindexLast->nHeight >= 583909 && pindexLast->nHeight <= 583920){return nProofOfWorkLimit;}
+	if(pindexLast->GetBlockHeader().GetBlockTime() > changeAlgoTime && pindexLast->GetBlockHeader().GetBlockTime() < (changeAlgoTime+ 60*60*2)){return nProofOfWorkLimit;} 
 
     if (Params().NetworkID() != CBaseChainParams::TESTNET) {
         if (pindexLast->nHeight + 1 >= 34140) retarget = DIFF_DGW;
@@ -161,10 +157,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     if (retarget == DIFF_BTC)
     {
 
-        unsigned int nProofOfWorkLimit = Params().ProofOfWorkLimit().GetCompact();
-        if (pindexLast->nHeight >= 513216 && pindexLast->nHeight <= 513230){
-            return nProofOfWorkLimit;
-        }
+
 	 
 	
         // Genesis block
@@ -239,10 +232,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     // Retarget using Dark Gravity Wave 3
     else if (retarget == DIFF_DGW)
     {
-        unsigned int nProofOfWorkLimit = Params().ProofOfWorkLimit().GetCompact();
-        if (pindexLast->nHeight >= 513216 && pindexLast->nHeight <= 513230){
-            return nProofOfWorkLimit;
-        }
+  
         return DarkGravityWave(pindexLast);
     }
 
