@@ -444,11 +444,11 @@
     </message>
     <message>
         <source>Show Automatic &amp;Backups</source>
-        <translation>显示自动备份&amp;</translation>
+        <translation>打开 &amp;数据目录</translation>
     </message>
     <message>
         <source>Show automatically created wallet backups</source>
-        <translation>显示自动创建的钱包备份</translation>
+        <translation>打开钱包当前数据目录</translation>
     </message>
     <message>
         <source>&amp;Sending addresses...</source>

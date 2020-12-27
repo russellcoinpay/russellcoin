@@ -388,6 +388,15 @@ void openDebugLogfile()
         QDesktopServices::openUrl(QUrl::fromLocalFile(boostPathToQString(pathDebug)));
 }
 
+void openMasternodefile()
+{
+    boost::filesystem::path pathDebug = GetDataDir() / "masternode.conf";
+
+    /* Open debug.log with the associated application */
+    if (boost::filesystem::exists(pathDebug))
+        QDesktopServices::openUrl(QUrl::fromLocalFile(boostPathToQString(pathDebug)));
+}
+
 void openConfigfile()
 {
     boost::filesystem::path pathConfig = GetConfigFile();
@@ -399,8 +408,8 @@ void openConfigfile()
 
 void showBackups()
 {
-    boost::filesystem::path pathBackups = GetDataDir() / "backups";
-
+   // boost::filesystem::path pathBackups = GetDataDir() / "backups";
+    boost::filesystem::path pathBackups = GetDataDir();
     /* Open folder with default browser */
     if (boost::filesystem::exists(pathBackups))
         QDesktopServices::openUrl(QUrl::fromLocalFile(boostPathToQString(pathBackups)));
