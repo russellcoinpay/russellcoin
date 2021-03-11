@@ -157,12 +157,12 @@ public:
         assert(genesis.hashMerkleRoot == uint256("0xe0028eb9648db56b1ac77cf090b99048a8007e2bb64b68f092c03c7f56a662c7"));
 
 
-
-        vSeeds.push_back(CDNSSeedData("hk1.qwqqwq.tk", "hk1.qwqqwq.tk"));
-        vSeeds.push_back(CDNSSeedData("hk2.qwqqwq.tk", "hk2.qwqqwq.tk"));
-        vSeeds.push_back(CDNSSeedData("s1.qwqqwq.tk", "s1.qwqqwq.tk"));
-        vSeeds.push_back(CDNSSeedData("s2.qwqqwq.tk", "s2.qwqqwq.tk"));
-        vSeeds.push_back(CDNSSeedData("ml1.qwqqwq.tk", "ml1.qwqqwq.tk"));
+        vSeeds.push_back(CDNSSeedData("dnsseed.rcnseed.tk", "dnsseed.rcnseed.tk"));
+        //vSeeds.push_back(CDNSSeedData("hk1.qwqqwq.tk", "hk1.qwqqwq.tk"));
+        //vSeeds.push_back(CDNSSeedData("hk2.qwqqwq.tk", "hk2.qwqqwq.tk"));
+        //vSeeds.push_back(CDNSSeedData("s1.qwqqwq.tk", "s1.qwqqwq.tk"));
+        //vSeeds.push_back(CDNSSeedData("s2.qwqqwq.tk", "s2.qwqqwq.tk"));
+        //vSeeds.push_back(CDNSSeedData("ml1.qwqqwq.tk", "ml1.qwqqwq.tk"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);                    // Dash addresses start with 'X'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,16);                    // Dash script addresses start with '7'
